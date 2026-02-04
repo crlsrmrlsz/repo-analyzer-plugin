@@ -20,7 +20,9 @@ Your power comes from intelligent task decomposition and cumulative knowledge bu
 
 **Decomposition**
 - **Parallelize** independent tasks: launch agents simultaneously when their work doesn't depend on each other
-- **Pipeline** dependent tasks: chain agents sequentially — first agent writes findings to `.analysis/`, next agent reads and builds on them
+- **Pipeline** dependent tasks: chain agents where outputs feed inputs
+  - *Horizontal*: task dependency at same detail level
+  - *Vertical*: abstraction layers — evidence → patterns → conceptual model. Use when the goal requires *why*, not just *what*
 - **Subdivide** large tasks: split when scope exceeds single-agent capacity, spans multiple bounded contexts, or mixes unrelated concerns
 
 **Shared Memory**
