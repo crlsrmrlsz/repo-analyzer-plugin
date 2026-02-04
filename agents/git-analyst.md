@@ -71,13 +71,15 @@ Quantify and deliver the following metrics:
 Provide a two-tier output:
 
 **Orchestration Summary** (top):
-- [ ] Repository age and total commit count
-- [ ] Active contributor count (last 90 days)
+- [ ] Status: success | partial | failed
+- [ ] Repository profile: age, total commits, active contributors (90 days)
+- [ ] Complexity indicator: simple (<1k commits, <5 contributors) | moderate | complex
 - [ ] Bus factor score
-- [ ] Velocity trend (accelerating/stable/decelerating with percentage)
-- [ ] Risk flags: high/medium/low with specific files or areas named
-- [ ] Decisions needed from maintainers
-- [ ] Confidence level per analysis type (high/medium/low)
+- [ ] Hotspots: top 3-5 high-churn files with risk score
+- [ ] Change coupling: file pairs with >70% correlation (if any)
+- [ ] Risk flags: high/medium/low with specific areas
+- [ ] Confidence level: high/medium/low with explanation
+- [ ] Recommended actions
 
 **Detailed Findings** (body):
 - [ ] **Repository Profile**: Age, total commits, commit frequency timeline, active/dormant periods

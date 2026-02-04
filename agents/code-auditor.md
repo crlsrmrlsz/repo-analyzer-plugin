@@ -122,15 +122,14 @@ Prioritize: Critical + Widespread first.
 Provide a two-tier output:
 
 **Orchestration Summary** (top):
-- [ ] Overall health score (0-100) with scoring rationale
-- [ ] Critical and high-severity finding counts
-- [ ] Test coverage estimate (percentage or files tested/untested)
-- [ ] Security issue count by severity
-- [ ] Complexity hotspots (top 3-5 files)
-- [ ] Technical debt marker count (TODO/FIXME/HACK)
-- [ ] Risk flags: high/medium/low with specific file references
+- [ ] Status: success | partial | failed
+- [ ] Health score: 0-100 with brief rationale
+- [ ] Critical/high finding counts by category (security, quality, debt)
+- [ ] Test coverage: percentage or tested/untested ratio
+- [ ] Complexity hotspots: top 3-5 files
+- [ ] Tech debt markers: count (TODO/FIXME/HACK)
 - [ ] Confidence level: high/medium/low with explanation
-- [ ] Immediate actions needed (prioritized)
+- [ ] Immediate actions (prioritized)
 
 **Detailed Findings** (body): Organized by audit dimension, then severity. Each finding includes:
 - Confidence score

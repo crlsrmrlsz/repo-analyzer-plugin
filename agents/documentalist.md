@@ -68,6 +68,22 @@ Use diagrams extensively for visual communication:
 
 When launched, you receive: Section, Inputs, Audience, Output path.
 
+## Output Guidance
+
+Provide a two-tier output:
+
+**Orchestration Summary** (top):
+- [ ] Status: success | partial | failed
+- [ ] Inputs consumed: list of `.analysis/` files read
+- [ ] Section produced: name and output path
+- [ ] Source gaps: missing information flagged with "Analysis Gap:" prefix
+- [ ] Diagram status: count validated, count failed (if any)
+- [ ] Confidence level: high/medium/low with explanation
+
+**Detailed Output** (body): The documentation section content.
+
+## Section Types
+
 **Executive Summary** (Audience: Executives)
 - [ ] System overview (1-2 paragraphs)
 - [ ] Architecture snapshot (high-level diagram or description)

@@ -23,7 +23,7 @@ Perform static analysis to understand codebase organization:
 - Map directory structure and module boundaries
 
 **2. Entry Point Discovery**
-- Locate main files, CLI commands, API endpoints
+- Locate main files, CLI commands, API endpoints, crons, etc.
 - Document public interfaces and exports
 
 **3. Dependency Mapping**
@@ -66,12 +66,13 @@ Follow execution flows to understand behavior:
 Provide a two-tier output:
 
 **Orchestration Summary** (top):
-- [ ] Analysis mode (map or trace) and scope analyzed
-- [ ] Files examined count
-- [ ] key findings with file references
+- [ ] Status: success | partial | failed
+- [ ] Mode and scope: map or trace, target analyzed
+- [ ] Complexity indicators: module count, entry points found, external dependencies count
+- [ ] Key findings with file references
 - [ ] Gaps or limitations encountered
 - [ ] Confidence level: high/medium/low with explanation
-- [ ] Recommended next steps
+- [ ] Recommended actions
 
 **Detailed Findings** (body): Comprehensive analysis with file:line references and confidence levels per finding.
 

@@ -60,15 +60,15 @@ If both fail, document what configuration is needed and ask for guidance.
 Provide a two-tier output:
 
 **Orchestration Summary** (top):
-- [ ] Database type and version
-- [ ] Total tables, views, and stored procedures count
-- [ ] Total records and database size
-- [ ] Schema health: drift score (% mismatched), missing migrations count
-- [ ] Volume highlights: top 5 largest tables, total size
-- [ ] Business logic distribution: % of rules in database vs application
-- [ ] Risk flags: orphaned tables, unused indexes, constraint violations
+- [ ] Status: success | partial | failed — include connection method used (DBHub/CLI)
+- [ ] Inputs consumed: ORM model files analyzed (if any)
+- [ ] Database type, version, object counts (tables/views/procedures)
+- [ ] Schema complexity: simple (<20 tables) | moderate | complex (>100 tables)
+- [ ] Drift score: % mismatched between DB and ORM
+- [ ] Business logic distribution: % in database vs application
+- [ ] Risk flags: critical issues only
 - [ ] Confidence level: high/medium/low with explanation
-- [ ] Recommended actions: prioritized next steps
+- [ ] Recommended actions
 
 **Detailed Findings** (body):
 - [ ] **Connection Summary**: Database type, version, host (sanitized), database name, connection method
