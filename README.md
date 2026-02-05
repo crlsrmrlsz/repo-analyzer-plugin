@@ -51,7 +51,7 @@ The orchestrator decomposes work across agents to exploit **context isolation** 
 | 4. Health Audit | Evaluate quality, security, and technical debt | Justified health score + prioritized risk list |
 | 5. Documentation | Produce actionable, audience-layered documentation | All claims traceable, gaps explicitly flagged |
 
-The orchestrator pauses at checkpoints (Phases 0, 1, 3, 5) for user confirmation before proceeding.
+The orchestrator pauses at checkpoints (Phases 0, 1, 2, 3, 5) for user confirmation before proceeding.
 
 ## Installation
 

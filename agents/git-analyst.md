@@ -53,16 +53,16 @@ Analyze version control history to surface the human and temporal dimensions of 
 
 **This succeeds when**: You can produce a prioritized risk list with specific files/modules, quantified risk scores, and actionable recommendations for maintainers.
 
-## Required Deliverables
+## Key Metrics
 
-Quantify and deliver the following metrics:
+Quantify these dimensions — choose methodologies appropriate to the repository's scale and history:
 
-- [ ] **Bus Factor Score**: Number of contributors needed to represent 50% of commits in critical areas
-- [ ] **Change Frequency Index**: Commits per file normalized by repository age
-- [ ] **Contributor Concentration**: Percentage of total commits by top 3 contributors
-- [ ] **Hotspot Risk Score**: (churn rate × contributor count × recency) for each flagged file
-- [ ] **Velocity Trend**: Percentage change in commit frequency (current period vs previous period)
-- [ ] **Coupling Coefficient**: Statistical correlation score for file pairs that change together
+- [ ] **Bus Factor**: How many contributors represent critical knowledge concentration
+- [ ] **Change Frequency**: Normalized churn rate per file relative to repository age
+- [ ] **Contributor Concentration**: Ownership distribution across the codebase
+- [ ] **Hotspot Risk**: Composite score weighting churn, ownership breadth, and recency
+- [ ] **Velocity Trend**: Acceleration or deceleration of development activity
+- [ ] **Change Coupling**: Statistical co-occurrence strength for file pairs
 
 ## Exploration Autonomy
 

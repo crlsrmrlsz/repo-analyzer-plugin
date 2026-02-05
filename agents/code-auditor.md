@@ -71,17 +71,23 @@ Prioritize: Critical + Widespread first.
 
 **Objective**: Assess the codebase's ability to be monitored, debugged, and operated in production — logging coverage, error handling patterns, metrics instrumentation, and debugging readiness.
 
+**Ground Truth**: Logging calls, error handlers, and metrics instrumentation in source code — not operational dashboards.
+
 **This succeeds when**: You can characterize the observability posture and identify blind spots where failures would be difficult to diagnose.
 
 ### CI/CD & Deployment
 
 **Objective**: Evaluate the build, test, and deployment pipeline — automation coverage, test integration, deployment safeguards, and secrets management in CI.
 
+**Ground Truth**: Pipeline definition files and deployment scripts — not external CI/CD platform state.
+
 **This succeeds when**: You can describe the deployment pipeline, identify automation gaps, and assess whether safeguards (tests, approvals, rollback) are adequate.
 
 ### Documentation Accuracy
 
 **Objective**: Assess whether existing documentation (README, API docs, setup guides) accurately reflects the current codebase — or whether it misleads.
+
+**Ground Truth**: Compare documentation claims directly against source code and configuration.
 
 **This succeeds when**: You can identify specific discrepancies between documentation and implementation, with file references for both.
 

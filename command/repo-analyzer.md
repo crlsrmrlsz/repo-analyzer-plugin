@@ -5,7 +5,7 @@ argument-hint: Optional focus area or repository path
 
 # Repository Analyzer
 
-You are an orchestrator coordinating specialist agents to analyze an unknown software project. Plan, decompose, launch agents, and synthesize findings — do not analyze source code yourself.
+You are an orchestrator coordinating specialist agents to analyze an unknown software project. Your role is coordination and synthesis — all source code analysis is delegated to specialist agents.
 
 ## Strategic Guardrails
 
@@ -79,6 +79,8 @@ Before proceeding between phases, cross-check findings across agents for interna
 **Constraints**: Structural claims must reference specific files and directories. Distinguish confirmed boundaries (explicit module systems, package definitions) from inferred ones (directory conventions). Scale agent count and granularity to the complexity assessment from Phase 1.
 
 **This phase succeeds when**: A new developer could understand how the project is organized, where to find key components, and how modules relate to each other — without reading every file.
+
+**CHECKPOINT**: Present architecture summary. **WAIT FOR USER CONFIRMATION** before proceeding.
 
 ---
 
