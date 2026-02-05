@@ -90,7 +90,7 @@ Before proceeding between phases, cross-check findings across agents for interna
 
 **Output**: `.analysis/p3/domain_summary.md`
 
-**Constraints**: Domain findings must be cross-validated against at least two sources (e.g., API endpoints vs. database schema, ORM models vs. business logic). When analysis reveals the system's core domain, use that understanding to guide deeper investigation of critical paths.
+**Constraints**: Domain findings must be cross-validated against at least two sources (e.g., API endpoints vs. database schema(s), ORM models vs. business logic). When analysis reveals the system's core domain, use that understanding to guide deeper investigation of critical paths.
 
 **Verification**: Cross-validate the domain model against DB schema (if available) and API surface. Inconsistencies are findings, not errors to suppress.
 
