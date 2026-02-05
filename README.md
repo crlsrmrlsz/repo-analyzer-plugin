@@ -28,13 +28,13 @@ The orchestrator decomposes work across agents to exploit **context isolation** 
 - Agents **return only a concise summary** in their response — keeping the orchestrator's context lean
 - Downstream agents **read directly from `.analysis/`** — no relay through the orchestrator
 
-**Task sizing** is calibrated to project scale after Phase 1: single agents per objective for small projects (<50 files), scoped to modules for medium (50-500), aggressively subdivided for large (>500+). The orchestrator parallelizes independent tasks, pipelines dependent ones, and subdivides when scope exceeds a single agent's context capacity.
+**Decomposition** is calibrated to project scale after Phase 1. The orchestrator chooses its decomposition strategy based on the project's actual complexity and dependency structure — narrow scope is preferred, since three focused agents outperform one overloaded agent.
 
 ## Agents
 
 | Agent | Objective |
 |-------|-----------|
-| **code-explorer** | Produce structural maps (map mode) and execution flow traces (trace mode) with `file:line` evidence |
+| **code-explorer** | Produce evidence-based analysis of codebase structure and behavior with `file:line` evidence |
 | **database-analyst** | Reverse-engineer data architectures: schema inventory, volume analysis, ORM drift detection |
 | **code-auditor** | Assess code health across 7 dimensions with confidence-based filtering (>= 80%) and severity classification |
 | **git-analyst** | Extract VCS intelligence: contributor dynamics, hotspot risk scores, bus factor, velocity trends |
