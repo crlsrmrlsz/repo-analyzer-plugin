@@ -123,32 +123,14 @@ For sensitive credentials, use `~/.dbhub.toml` instead.
 
 Create `.claude/repo-analyzer.local.md` in your project root to pre-configure repository and database access. The orchestrator reads this file at Phase 0 to skip interactive discovery for already-configured values.
 
-```markdown
----
-# Repository access
-vcs_platform: github          # github | gitlab | git | svn
-remote_url: https://github.com/org/repo
+**Quick setup** — copy the template and uncomment the settings you need:
 
-# Database access (optional — omit entire section if no database)
-db_enabled: true
-db_type: postgres              # postgres | mysql | mariadb | sqlite | sqlserver | oracle
-db_connection: dbhub           # dbhub | cli
-db_host: localhost
-db_port: 5432
-db_name: myapp
-db_user: readonly_user
-# Note: never put passwords here — use environment variables or .dbhub.toml
-
-# Analysis preferences (optional)
-focus_areas: ["auth", "api"]   # Limit analysis to specific areas
-exclusions: ["vendor", "node_modules", "generated"]
----
-
-# Additional Context
-
-Any notes about the project that should inform the analysis.
-For example: "This is a monorepo with 3 services in services/ directory."
+```bash
+mkdir -p .claude
+cp path/to/repo-analyzer-plugin/templates/repo-analyzer.local.md .claude/repo-analyzer.local.md
 ```
+
+See [`templates/repo-analyzer.local.md`](templates/repo-analyzer.local.md) for all available settings with descriptions.
 
 After creating or editing settings, restart Claude Code for changes to take effect.
 
@@ -194,10 +176,12 @@ repo-analyzer/
 ├── README.md
 ├── commands/
 │   └── repo-analyzer.md       # Orchestrator (OCV phases)
-└── agents/
-    ├── code-explorer.md        # Structure + behavior analysis
-    ├── database-analyst.md     # Data layer forensics
-    ├── code-auditor.md         # Health + security audit
-    ├── git-analyst.md          # VCS intelligence
-    └── documentalist.md        # Report synthesis
+├── agents/
+│   ├── code-explorer.md        # Structure + behavior analysis
+│   ├── database-analyst.md     # Data layer forensics
+│   ├── code-auditor.md         # Health + security audit
+│   ├── git-analyst.md          # VCS intelligence
+│   └── documentalist.md        # Report synthesis
+└── templates/
+    └── repo-analyzer.local.md  # Settings template (copy to .claude/)
 ```
