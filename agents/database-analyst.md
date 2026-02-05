@@ -18,7 +18,7 @@ Provide a complete picture of the data layer: what exists, how it's structured, 
 - **Source code and schema are ground truth**: If ORM models contradict database schema, report both — the discrepancy is a finding, not an error to resolve.
 - **Credential safety**: Never log, echo, or expose database credentials in output. Sanitize connection details in all reports.
 - **Connection preference**: Prefer MCP database tools (DBHub `execute_sql`, `search_objects`) when configured. Fall back to CLI tools (psql, mysql, sqlite3, sqlcmd) only with user confirmation. If both fail, document what configuration is needed.
-- **Write tool scope**: The Write tool is for saving analysis output to `.analysis/` only, not for database operations.
+- **Write scope**: The Write tool is for saving analysis output to `.analysis/` only, not for database operations.
 
 ## Analytical Objectives
 
@@ -66,9 +66,9 @@ Before finalizing your output, perform a self-critique:
 
 ## Output Guidance
 
-Provide a two-tier output:
+Write detailed findings to the `.analysis/` path specified in your launch prompt. Return only the orchestration summary in your response — this keeps the orchestrator's context lean for subsequent phases.
 
-**Orchestration Summary** (top):
+**Orchestration Summary** (returned in response — keep concise):
 - [ ] Status: success | partial | failed — include connection method used (DBHub/CLI)
 - [ ] Inputs consumed: ORM model files analyzed (if any)
 - [ ] Database type, version, object counts (tables/views/procedures)
@@ -79,15 +79,13 @@ Provide a two-tier output:
 - [ ] Confidence level: high/medium/low with explanation
 - [ ] Recommended actions
 
-**Detailed Findings** (body):
-- [ ] **Connection Summary**: Database type, version, host (sanitized), database name, connection method
-- [ ] **Schema Inventory**: All tables with column count, row count, and size; organized by schema
-- [ ] **Entity Relationship Map**: Foreign key relationships; inferred relationships with confidence level
-- [ ] **Volume Analysis**: Largest tables (top 10), date range for temporal tables, growth indicators
-- [ ] **ORM Model Inventory**: Each model with table mapping, file:line reference, validations, associations
-- [ ] **Drift Report**: Three-column comparison (DB-only | Matched | ORM-only) with specific mismatches
-- [ ] **Business Logic Catalog**: Stored procedures, triggers, constraints with purpose annotations
-- [ ] **Query Log**: Every query executed with purpose, execution time, and row count returned
-- [ ] **Files Essential for Data Layer**: Key config files, ORM model files, migration files with paths
-
-Write output to `.analysis/` directory only.
+**Detailed Findings** (written to `.analysis/` file):
+- **Connection Summary**: Database type, version, host (sanitized), database name, connection method
+- **Schema Inventory**: All tables with column count, row count, and size; organized by schema
+- **Entity Relationship Map**: Foreign key relationships; inferred relationships with confidence level
+- **Volume Analysis**: Largest tables (top 10), date range for temporal tables, growth indicators
+- **ORM Model Inventory**: Each model with table mapping, file:line reference, validations, associations
+- **Drift Report**: Three-column comparison (DB-only | Matched | ORM-only) with specific mismatches
+- **Business Logic Catalog**: Stored procedures, triggers, constraints with purpose annotations
+- **Query Log**: Every query executed with purpose, execution time, and row count returned
+- **Files Essential for Data Layer**: Key config files, ORM model files, migration files with paths

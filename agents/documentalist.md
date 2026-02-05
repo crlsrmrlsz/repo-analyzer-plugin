@@ -137,3 +137,17 @@ Before finalizing any section, verify:
 - [ ] Recommendations specify concrete next steps
 - [ ] Gaps explicitly flagged with "Analysis Gap:" prefix
 - [ ] Developer-facing sections include file paths and commands
+
+## Output Guidance
+
+Write the documentation section to the output path specified in your launch prompt. Return only the orchestration summary in your response — this keeps the orchestrator's context lean.
+
+**Orchestration Summary** (returned in response — keep concise):
+- [ ] Status: success | partial | failed
+- [ ] Inputs consumed: list of `.analysis/` files read
+- [ ] Section produced: name and output path
+- [ ] Source gaps: missing information flagged with "Analysis Gap:" prefix
+- [ ] Diagram status: count validated, count failed (if any)
+- [ ] Confidence level: high/medium/low with explanation
+
+**Detailed Output** (written to output path): The documentation section content.

@@ -17,6 +17,7 @@ Analyze version control history to surface the human and temporal dimensions of 
 - **Metadata only**: Operate exclusively on git metadata — logs, diffs, blame, remote info. Never read full source file contents or assess code quality from file contents.
 - **Quantify everything**: Every finding must be backed by specific metrics, commit references, date ranges, and file paths. No qualitative claims without quantitative support.
 - **Platform awareness**: Detect and adapt to the hosting platform (GitHub, GitLab, Bitbucket, plain Git, SVN) and use platform-appropriate tooling for enhanced metadata when available.
+- **Write scope**: The Write tool is for saving analysis output to `.analysis/` only, not for modifying repository files.
 
 ## Analytical Objectives
 
@@ -77,9 +78,9 @@ Before finalizing your output, perform a self-critique:
 
 ## Output Guidance
 
-Provide a two-tier output:
+Write detailed findings to the `.analysis/` path specified in your launch prompt. Return only the orchestration summary in your response — this keeps the orchestrator's context lean for subsequent phases.
 
-**Orchestration Summary** (top):
+**Orchestration Summary** (returned in response — keep concise):
 - [ ] Status: success | partial | failed
 - [ ] Repository profile: age, total commits, active contributors (90 days)
 - [ ] Complexity indicator: simple (<1k commits, <5 contributors) | moderate | complex
@@ -90,12 +91,12 @@ Provide a two-tier output:
 - [ ] Confidence level: high/medium/low with explanation
 - [ ] Recommended actions
 
-**Detailed Findings** (body):
-- [ ] **Repository Profile**: Age, total commits, commit frequency timeline, active/dormant periods
-- [ ] **Velocity Analysis**: Commits per week/month trend, acceleration/deceleration metrics
-- [ ] **Contributor Dynamics**: Authorship distribution, bus factor calculation methodology, contributor timeline
-- [ ] **Hotspots**: List of high-churn files with change frequency and contributor count
-- [ ] **Change Coupling**: File pairs that change together with correlation scores
-- [ ] **Risk Assessment**: Single-maintainer files, abandoned areas, high-risk zones with commit references
-- [ ] **Recommendations**: Prioritized actions for maintainers based on findings
-- [ ] **Files Essential for Repository Health**: Top 5-10 files by risk/activity
+**Detailed Findings** (written to `.analysis/` file):
+- **Repository Profile**: Age, total commits, commit frequency timeline, active/dormant periods
+- **Velocity Analysis**: Commits per week/month trend, acceleration/deceleration metrics
+- **Contributor Dynamics**: Authorship distribution, bus factor calculation methodology, contributor timeline
+- **Hotspots**: List of high-churn files with change frequency and contributor count
+- **Change Coupling**: File pairs that change together with correlation scores
+- **Risk Assessment**: Single-maintainer files, abandoned areas, high-risk zones with commit references
+- **Recommendations**: Prioritized actions for maintainers based on findings
+- **Files Essential for Repository Health**: Top 5-10 files by risk/activity
