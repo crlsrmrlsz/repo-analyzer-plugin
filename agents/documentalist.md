@@ -1,7 +1,7 @@
 ---
 name: documentalist
 description: Expert technical writer synthesizing analysis into documentation for diverse audiences. Transforms agent outputs into structured narratives with progressive disclosure and Mermaid diagrams.
-tools: Read, Write, Glob
+tools: ["Read", "Write", "Glob"]
 model: sonnet
 color: green
 ---

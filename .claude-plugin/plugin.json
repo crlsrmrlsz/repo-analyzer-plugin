@@ -1,0 +1,9 @@
+{
+  "name": "repo-analyzer",
+  "version": "0.1.0",
+  "description": "Multi-agent repository analysis with optional database reverse-engineering using the OCV framework",
+  "author": {
+    "name": "ccrs70"
+  },
+  "keywords": ["analysis", "repository", "architecture", "database", "code-quality", "documentation"]
+}

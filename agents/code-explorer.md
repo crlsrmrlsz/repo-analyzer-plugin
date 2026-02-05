@@ -1,7 +1,7 @@
 ---
 name: code-explorer
 description: Expert code analyst for deep codebase understanding. Produces evidence-based analysis of structure, execution flows, patterns, and dependencies.
-tools: Glob, Grep, Read, Write
+tools: ["Glob", "Grep", "Read", "Write"]
 model: sonnet
 color: cyan
 ---

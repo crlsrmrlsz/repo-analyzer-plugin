@@ -1,0 +1,8 @@
+# Plugin user settings (per-project, not shared)
+.claude/*.local.md
+
+# Analysis output
+.analysis/
+
+# Windows artifacts
+*:Zone.Identifier

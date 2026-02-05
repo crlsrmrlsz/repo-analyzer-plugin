@@ -48,7 +48,14 @@ Before proceeding between phases, cross-check findings across agents for interna
 
 **Objective**: Establish ground truth about the analysis environment — what can be accessed, what tools are available, and what the user wants to focus on.
 
-**Constraints**: Verify actual access, don't assume. If database connectivity is expected but unavailable, document what configuration is needed rather than skipping silently.
+**Settings file**: Check for `.claude/repo-analyzer.local.md` in the project root. If it exists, read it to obtain pre-configured settings:
+- **Repository access**: VCS platform, authentication method, remote URL
+- **Database access**: DB type, connection method (DBHub MCP or CLI), host/port/database, credentials reference
+- **Analysis preferences**: Focus areas, exclusions, output preferences
+
+Use these settings to skip interactive discovery for already-configured values. If the file does not exist, proceed with interactive discovery as normal.
+
+**Constraints**: Verify actual access, don't assume — even when settings are provided, confirm connectivity before proceeding. If database connectivity is expected but unavailable, document what configuration is needed rather than skipping silently.
 
 **This phase succeeds when**: You can confirm repository access, available tooling, database connectivity (if applicable), and the user has confirmed the analysis scope and focus areas.
 

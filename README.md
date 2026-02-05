@@ -32,13 +32,15 @@ The orchestrator decomposes work across agents to exploit **context isolation** 
 
 ## Agents
 
-| Agent | Objective |
-|-------|-----------|
-| **code-explorer** | Produce evidence-based analysis of codebase structure and behavior with `file:line` evidence |
-| **database-analyst** | Reverse-engineer data architectures: schema inventory, volume analysis, ORM drift detection |
-| **code-auditor** | Assess code health across 7 dimensions with confidence-based filtering (>= 80%) and severity classification |
-| **git-analyst** | Extract VCS intelligence: contributor dynamics, hotspot risk scores, bus factor, velocity trends |
-| **documentalist** | Synthesize `.analysis/` findings into audience-appropriate documentation with progressive disclosure |
+| Agent | Model | Objective |
+|-------|-------|-----------|
+| **code-explorer** | sonnet | Produce evidence-based analysis of codebase structure and behavior with `file:line` evidence |
+| **database-analyst** | sonnet | Reverse-engineer data architectures: schema inventory, volume analysis, ORM drift detection |
+| **code-auditor** | sonnet | Assess code health across 7 dimensions with confidence-based filtering (>= 80%) and severity classification |
+| **git-analyst** | sonnet | Extract VCS intelligence: contributor dynamics, hotspot risk scores, bus factor, velocity trends |
+| **documentalist** | sonnet | Synthesize `.analysis/` findings into audience-appropriate documentation with progressive disclosure |
+
+The orchestrator command runs on whatever model the user launches Claude Code with (recommended: opus for best coordination).
 
 ## Analysis Phases
 
@@ -56,11 +58,14 @@ The orchestrator pauses at checkpoints (Phases 0, 1, 2, 3, 5) for user confirmat
 ## Installation
 
 ```bash
+# Clone the plugin
+git clone https://github.com/ccrs70/plugin-repo-analyzer.git
+
 # Global (all projects)
-cp -r repo-analyzer-plugin ~/.claude/plugins/
+cp -r plugin-repo-analyzer ~/.claude/plugins/
 
 # Or project-specific
-cp -r repo-analyzer-plugin .claude/plugins/
+cp -r plugin-repo-analyzer .claude/plugins/
 ```
 
 ## Prerequisites
@@ -114,6 +119,41 @@ For sensitive credentials, use `~/.dbhub.toml` instead.
 
 **MongoDB**: Use community `mongodb-mcp` server (not supported by DBHub).
 
+## Settings (Optional)
+
+Create `.claude/repo-analyzer.local.md` in your project root to pre-configure repository and database access. The orchestrator reads this file at Phase 0 to skip interactive discovery for already-configured values.
+
+```markdown
+---
+# Repository access
+vcs_platform: github          # github | gitlab | git | svn
+remote_url: https://github.com/org/repo
+
+# Database access (optional — omit entire section if no database)
+db_enabled: true
+db_type: postgres              # postgres | mysql | mariadb | sqlite | sqlserver | oracle
+db_connection: dbhub           # dbhub | cli
+db_host: localhost
+db_port: 5432
+db_name: myapp
+db_user: readonly_user
+# Note: never put passwords here — use environment variables or .dbhub.toml
+
+# Analysis preferences (optional)
+focus_areas: ["auth", "api"]   # Limit analysis to specific areas
+exclusions: ["vendor", "node_modules", "generated"]
+---
+
+# Additional Context
+
+Any notes about the project that should inform the analysis.
+For example: "This is a monorepo with 3 services in services/ directory."
+```
+
+After creating or editing settings, restart Claude Code for changes to take effect.
+
+**Important**: Add `.claude/*.local.md` to your `.gitignore` — settings files contain project-specific configuration and should not be committed.
+
 ## Usage
 
 ```bash
@@ -147,14 +187,17 @@ Results written to `.analysis/`:
 ## File Structure
 
 ```
-repo-analyzer-plugin/
+repo-analyzer/
+├── .claude-plugin/
+│   └── plugin.json            # Plugin manifest
+├── .gitignore
 ├── README.md
-├── command/
-│   └── repo-analyzer.md      # Orchestrator (OCV phases)
+├── commands/
+│   └── repo-analyzer.md       # Orchestrator (OCV phases)
 └── agents/
-    ├── code-explorer.md       # Structure + behavior analysis
-    ├── database-analyst.md    # Data layer forensics
-    ├── code-auditor.md        # Health + security audit
-    ├── git-analyst.md         # VCS intelligence
-    └── documentalist.md       # Report synthesis
+    ├── code-explorer.md        # Structure + behavior analysis
+    ├── database-analyst.md     # Data layer forensics
+    ├── code-auditor.md         # Health + security audit
+    ├── git-analyst.md          # VCS intelligence
+    └── documentalist.md        # Report synthesis
 ```
