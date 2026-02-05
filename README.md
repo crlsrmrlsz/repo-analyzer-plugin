@@ -19,6 +19,17 @@ This means agents receive *what to achieve*, not *how to code it*. Four cross-cu
 
 The orchestrator uses the same pattern at the phase level: each phase has an **Objective**, **Constraints**, and **"This phase succeeds when"** criteria — without prescribing which agent handles which sub-task.
 
+## Context Architecture
+
+The orchestrator decomposes work across agents to exploit **context isolation** — each agent gets a fresh context window, so focused agents go deeper than a single overloaded one.
+
+**Information flow** uses a two-tier output structure:
+- Agents **write detailed findings** to `.analysis/` files (path specified by orchestrator)
+- Agents **return only a concise summary** in their response — keeping the orchestrator's context lean
+- Downstream agents **read directly from `.analysis/`** — no relay through the orchestrator
+
+**Task sizing** is calibrated to project scale after Phase 1: single agents per objective for small projects (<50 files), scoped to modules for medium (50-500), aggressively subdivided for large (>500+). The orchestrator parallelizes independent tasks, pipelines dependent ones, and subdivides when scope exceeds a single agent's context capacity.
+
 ## Agents
 
 | Agent | Objective |
