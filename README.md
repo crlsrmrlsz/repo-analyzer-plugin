@@ -91,23 +91,21 @@ Database analysis requires **read-only** access via MCP server or CLI fallback.
 
 **DBHub setup** (recommended — supports PostgreSQL, MySQL, MariaDB, SQL Server, SQLite, Oracle):
 
-1. Add to `.mcp.json`:
-```json
-{
-  "mcpServers": {
-    "dbhub": {
-      "command": "npx",
-      "args": ["-y", "@bytebase/dbhub@latest",
-               "--dsn", "postgres://readonly_user:${DB_PASSWORD}@localhost:5432/myapp",
-               "--readonly"]
-    }
-  }
-}
-```
-
-For multiple databases, use a TOML config:
+1. Create a `dbhub.toml` config with read-only mode:
 ```toml
 # dbhub.toml
+[[sources]]
+id = "main"
+dsn = "postgres://readonly_user:${DB_PASSWORD}@localhost:5432/myapp"
+
+[[tools]]
+name = "execute_sql"
+source = "main"
+readonly = true
+```
+
+For multiple databases, add more `[[sources]]` and `[[tools]]` entries:
+```toml
 [[sources]]
 id = "main"
 dsn = "postgres://readonly_user:${DB_PASSWORD}@localhost:5432/myapp"
@@ -115,13 +113,25 @@ dsn = "postgres://readonly_user:${DB_PASSWORD}@localhost:5432/myapp"
 [[sources]]
 id = "analytics"
 dsn = "mysql://readonly_user:${DB_PASSWORD}@localhost:3306/analytics"
+
+[[tools]]
+name = "execute_sql"
+source = "main"
+readonly = true
+
+[[tools]]
+name = "execute_sql"
+source = "analytics"
+readonly = true
 ```
+
+2. Add to `.mcp.json`:
 ```json
 {
   "mcpServers": {
     "dbhub": {
       "command": "npx",
-      "args": ["-y", "@bytebase/dbhub@latest", "--config", "dbhub.toml", "--readonly"]
+      "args": ["-y", "@bytebase/dbhub@latest", "--config", "dbhub.toml"]
     }
   }
 }

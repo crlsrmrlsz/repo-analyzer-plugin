@@ -1,0 +1,12 @@
+# dbhub.toml — Oracle example
+# Copy to your project root and adjust the connection values.
+# Use environment variables for passwords: ${ORACLE_PASSWORD}
+
+[[sources]]
+id = "sdempleo"
+dsn = "oracle://up_ovi_alae:${ORACLE_PASSWORD}@oradesa.ijclm.es:1525/SDEMPLEO"
+
+[[tools]]
+name = "execute_sql"
+source = "sdempleo"
+readonly = true

@@ -11,6 +11,11 @@ Place this file in your project root (or at `~/.dbhub.toml` for shared use).
 [[sources]]
 id = "main"
 dsn = "oracle://readonly_user:${ORACLE_PASSWORD}@dbhost.example.com:1521/service_name"
+
+[[tools]]
+name = "execute_sql"
+source = "main"
+readonly = true
 ```
 
 **Multiple Oracle databases:**
@@ -22,6 +27,16 @@ dsn = "oracle://readonly_user:${ORACLE_PASSWORD}@prod-db.example.com:1521/prodse
 [[sources]]
 id = "reporting"
 dsn = "oracle://readonly_user:${ORACLE_PASSWORD}@report-db.example.com:1521/rptservice"
+
+[[tools]]
+name = "execute_sql"
+source = "production"
+readonly = true
+
+[[tools]]
+name = "execute_sql"
+source = "reporting"
+readonly = true
 ```
 
 Set the password as an environment variable — never hardcode it:
@@ -52,7 +67,7 @@ Add to your project's `.mcp.json` so Claude Code launches DBHub automatically.
   "mcpServers": {
     "dbhub": {
       "command": "npx",
-      "args": ["-y", "@bytebase/dbhub@latest", "--config", "dbhub.toml", "--readonly"]
+      "args": ["-y", "@bytebase/dbhub@latest", "--config", "dbhub.toml"]
     }
   }
 }
