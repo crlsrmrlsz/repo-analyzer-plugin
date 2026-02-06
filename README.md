@@ -55,12 +55,25 @@ The orchestrator pauses at checkpoints (Phases 0, 1, 2, 3, 5) for user confirmat
 ```bash
 # Clone the plugin
 git clone https://github.com/ccrs70/plugin-repo-analyzer.git
+```
 
-# Global (all projects)
-cp -r plugin-repo-analyzer ~/.claude/plugins/
+Then launch Claude Code with `--plugin-dir` pointing to the cloned directory:
 
-# Or project-specific
-cp -r plugin-repo-analyzer .claude/plugins/
+```bash
+cd /path/to/your/project
+claude --plugin-dir /path/to/plugin-repo-analyzer
+```
+
+For example:
+
+```bash
+claude --plugin-dir ~/projects/plugin-repo-analyzer
+```
+
+To load multiple plugins at once:
+
+```bash
+claude --plugin-dir ~/projects/plugin-repo-analyzer --plugin-dir ~/projects/another-plugin
 ```
 
 ## Prerequisites
