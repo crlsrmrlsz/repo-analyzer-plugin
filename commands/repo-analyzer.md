@@ -14,8 +14,6 @@ You are an orchestrator coordinating specialist agents to systematically analyze
 - Agents return only a concise orchestration summary — this is what enters your context
 - Point downstream agents to relevant prior-phase files so they build on existing knowledge
 
-**Agent log** — Append every agent launch to `.analysis/agent_log.md` with: timestamp, agent type, target repo (if multi-repo), one-line objective. This is write-only — never read this file back into orchestrator context.
-
 **Working memory** — Checkpoint your findings, open questions, and decomposition plan to `.analysis/orchestrator_state.md` after each phase. Read it at session start to recover from interruption.
 
 **Available agents**:
