@@ -90,7 +90,7 @@ Database analysis requires **read-only** access via MCP server or CLI fallback.
     "dbhub": {
       "command": "npx",
       "args": ["-y", "@bytebase/dbhub@latest",
-               "--dsn", "postgres://readonly_user:password@localhost:5432/myapp",
+               "--dsn", "postgres://readonly_user:${DB_PASSWORD}@localhost:5432/myapp",
                "--readonly"]
     }
   }
@@ -102,11 +102,11 @@ For multiple databases, use a TOML config:
 # dbhub.toml
 [[sources]]
 id = "main"
-dsn = "postgres://readonly_user:password@localhost:5432/myapp"
+dsn = "postgres://readonly_user:${DB_PASSWORD}@localhost:5432/myapp"
 
 [[sources]]
 id = "analytics"
-dsn = "mysql://readonly_user:password@localhost:3306/analytics"
+dsn = "mysql://readonly_user:${DB_PASSWORD}@localhost:3306/analytics"
 ```
 ```json
 {
