@@ -71,11 +71,11 @@ Plain `git` is sufficient for basic analysis. Platform CLI tools unlock addition
 
 | Platform | Tool | Install | Auth |
 |----------|------|---------|------|
-| GitHub | `gh` (official) | `brew install gh` | `gh auth login` |
-| GitLab | `glab` (official) | `brew install glab` | `glab auth login` |
+| GitHub | `gh` (official) | `sudo apt install gh` or `sudo dnf install gh` | `gh auth login` |
+| GitLab | `glab` (official) | `sudo apt install glab` or `sudo dnf install glab` | `glab auth login` |
 | Bitbucket | No official CLI | — | Agent uses REST API via `curl` |
 | Other Git | — | — | SSH key or HTTPS credentials |
-| SVN | `svn` | `apt install subversion` | Credentials cached per-server |
+| SVN | `svn` | `sudo apt install subversion` or `sudo dnf install subversion` | Credentials cached per-server |
 
 ### Database Access (Optional)
 
