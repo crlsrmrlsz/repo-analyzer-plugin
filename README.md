@@ -139,7 +139,9 @@ readonly = true
 
 For sensitive credentials, use environment variable expansion (`${DB_URL}`) in `.mcp.json` or place the config at `~/.dbhub.toml`.
 
-**Oracle**: Standard Oracle connections use `oracle://user:pass@host:1521/service_name`. For Oracle 11g or older, use the `bytebase/dbhub-oracle-thick` Docker image and set `ORACLE_LIB_DIR` pointing to Instant Client. See [`templates/oracle-setup.md`](templates/oracle-setup.md) for a complete Oracle configuration walkthrough.
+**Oracle**: Two options available:
+- **SQLcl MCP Server** (recommended) — Oracle's official MCP server, built into SQLcl. No Docker needed, supports Oracle 19c–23ai. See [`templates/oracle-sqlcl-mcp-setup.md`](templates/oracle-sqlcl-mcp-setup.md) for the full setup guide.
+- **DBHub** — Use `oracle://user:pass@host:1521/service_name` as DSN. For Oracle 11g or older, use the `bytebase/dbhub-oracle-thick` Docker image. See [`templates/oracle-setup.md`](templates/oracle-setup.md) for the DBHub walkthrough.
 
 **MongoDB**: Use the official MongoDB MCP server (not supported by DBHub):
 ```json
