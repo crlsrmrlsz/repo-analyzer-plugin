@@ -129,7 +129,7 @@ dsn = "mysql://readonly_user:${DB_PASSWORD}@localhost:3306/analytics"
 
 For sensitive credentials, use environment variable expansion (`${DB_URL}`) in `.mcp.json` or place the config at `~/.dbhub.toml`.
 
-**Oracle**: Standard Oracle connections use `oracle://user:pass@host:1521/service_name`. For Oracle 11g or older, use the `bytebase/dbhub-oracle-thick` Docker image and set `ORACLE_LIB_DIR` pointing to Instant Client.
+**Oracle**: Standard Oracle connections use `oracle://user:pass@host:1521/service_name`. For Oracle 11g or older, use the `bytebase/dbhub-oracle-thick` Docker image and set `ORACLE_LIB_DIR` pointing to Instant Client. See [`templates/oracle-setup.md`](templates/oracle-setup.md) for a complete Oracle configuration walkthrough.
 
 **MongoDB**: Use the official MongoDB MCP server (not supported by DBHub):
 ```json
