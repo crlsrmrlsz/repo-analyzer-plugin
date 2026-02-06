@@ -2,22 +2,17 @@
 
 Multi-agent Claude Code plugin for comprehensive analysis of software repositories with optional database reverse-engineering.
 
-## Prompt Architecture: OCV Framework
+## Prompt Design Principles
 
-All prompts — orchestrator and agents — follow the **Objective-Constraint-Verification (OCV)** pattern:
+All prompts — orchestrator and agents — follow three design principles:
 
-> Define the analytical objective and the environmental constraints, then mandate a self-verification step, while leaving the discovery path and tool-chain sequence to the model's reasoning.
+1. **Goal-based**: Each agent receives an objective and success criteria, not a rigid procedure. Agents choose their investigation strategy based on the codebase.
+2. **Constrained**: Strategic Guardrails encode safety rules and ground truth sources (e.g., "read-only DB access", "confidence >= 80%"). These are hard boundaries, not suggestions.
+3. **Self-verifying**: Every agent validates findings for internal consistency as the final step of its process before producing output.
 
-This means agents receive *what to achieve*, not *how to code it*. Four cross-cutting sections enforce this:
+Agents also receive light procedural scaffolding — a recommended step sequence they can adapt or reorder — since Sonnet benefits from a default path while retaining flexibility.
 
-| Section | Purpose | Example |
-|---------|---------|---------|
-| **Strategic Guardrails** | Safety rules and ground truth sources | "Read-only DB access", "Confidence >= 80%" |
-| **Analytical Objectives** | Goal + success criteria per analysis area | "This succeeds when: you can quantify drift as %" |
-| **Exploration Autonomy** | Permission to pivot strategy on failure | "If initial search fails, refine and retry" |
-| **Validation Loop** | Self-critique before finalizing output | "Are findings internally consistent?" |
-
-The orchestrator uses the same pattern at the phase level: each phase has an **Objective**, **Constraints**, and **"This phase succeeds when"** criteria — without prescribing which agent handles which sub-task.
+The orchestrator uses the same pattern at the phase level: each phase has an **Objective**, **Constraints**, and **"This phase succeeds when"** criteria.
 
 ## Context Architecture
 
@@ -28,7 +23,7 @@ The orchestrator decomposes work across agents to exploit **context isolation** 
 - Agents **return only a concise summary** in their response — keeping the orchestrator's context lean
 - Downstream agents **read directly from `.analysis/`** — no relay through the orchestrator
 
-**Decomposition** is calibrated to project scale after Phase 1. The orchestrator chooses its decomposition strategy based on the project's actual complexity and dependency structure — narrow scope is preferred, since three focused agents outperform one overloaded agent.
+**Decomposition** is calibrated to project scale after Phase 1. The orchestrator chooses its decomposition strategy based on the project's actual complexity and dependency structure.
 
 ## Agents
 
