@@ -77,6 +77,14 @@ Plain `git` is sufficient for basic analysis. Platform CLI tools unlock addition
 | Other Git | — | — | SSH key or HTTPS credentials |
 | SVN | `svn` | `sudo apt install subversion` or `sudo dnf install subversion` | Credentials cached per-server |
 
+**Self-hosted GitLab**: If your GitLab instance is not on `gitlab.com`, specify the hostname when authenticating:
+
+```bash
+glab auth login --hostname gitlab.example.com
+```
+
+Choose **Personal Access Token** when prompted, and generate one in your GitLab instance at `https://gitlab.example.com/-/user_settings/personal_access_tokens` with scopes `api` and `read_repository`.
+
 ### Database Access (Optional)
 
 Database analysis requires **read-only** access via MCP server or CLI fallback.
