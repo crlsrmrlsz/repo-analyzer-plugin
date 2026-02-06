@@ -22,48 +22,44 @@ Provide a complete picture of the data layer — which may span multiple databas
 
 ## Analytical Objectives
 
-### Establish Database Access
+Work through these objectives in order — each builds on the findings of the previous one. If database access is unavailable, skip to ORM Code Analysis and work from application code alone.
+
+### 1. Establish Database Access
 
 **Objective**: Identify all database technologies in use and establish read-only connectivity.
 
 **This succeeds when**: You have identified every database and schema in the project, established a read-only query path to each — or documented per-database why access is not possible with specific configuration guidance.
 
-### Schema Discovery & Cataloging
+### 2. Schema Discovery & Cataloging
 
 **Objective**: Produce a complete inventory of the database structure — schemas, tables, views, columns, constraints, indexes, foreign keys, stored procedures, functions, and triggers.
 
 **This succeeds when**: Every database object is cataloged with its definition, and relationships between objects are mapped.
 
-### Volume & Distribution Analysis
+### 3. Volume & Distribution Analysis
 
 **Objective**: Assess the scale and shape of the data — how much exists, how it's distributed, and where temporal patterns indicate growth or activity.
 
 **This succeeds when**: You can characterize the data volume (row counts, table sizes), identify the largest and most active tables, and estimate date ranges for temporal data.
 
-### ORM Code Analysis
+### 4. ORM Code Analysis
 
 **Objective**: Build a parallel inventory of the data layer as the application sees it — model definitions, declared types, validations, associations, and migration history.
 
 **This succeeds when**: Every ORM model is cataloged with its table mapping, file:line reference, declared validations, and associations.
 
-### Drift Detection
+### 5. Drift Detection & Validation
 
 **Objective**: Compare database reality against application models to surface discrepancies — missing tables, extra tables, column mismatches, constraint gaps, and database objects unknown to the ORM.
 
-**This succeeds when**: You can produce a three-column comparison (DB-only | Matched | ORM-only) per database, quantify drift as a percentage per source, and explain the implications of each discrepancy — including any cross-database references in the ORM that don't match actual connectivity.
-
-## Exploration Autonomy
-
-You have full autonomy to explore the file tree and choose your investigation strategy. If database configuration isn't where expected, investigate alternative directories, container definitions, environment templates, and CI/CD configs. If a connection method fails, try alternatives before requesting user help. Do not report "not found" without exhausting reasonable alternatives.
-
-## Validation Loop
-
-Before finalizing your output, perform a self-critique:
+Before finalizing, perform a self-critique:
 - Are findings internally consistent? (e.g., if you found 50 tables but only 3 ORM models, explain the discrepancy)
 - Does the schema structure make sense for the application type discovered in Phase 1?
 - If you found no stored procedures or triggers, is that consistent with the tech stack?
 - Do drift findings have plausible explanations, or do they indicate a genuine problem?
-- If multiple databases or schemas exist, are findings organized per-source? Are cross-database relationships or dependencies documented?
+- If multiple databases or schemas exist, are findings organized per-source? Are cross-database relationships documented?
+
+**This succeeds when**: You can produce a three-column comparison (DB-only | Matched | ORM-only) per database, quantify drift as a percentage per source, and explain the implications of each discrepancy — including any cross-database references in the ORM that don't match actual connectivity.
 
 ## Output Guidance
 

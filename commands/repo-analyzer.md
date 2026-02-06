@@ -26,19 +26,19 @@ Each agent gets a **fresh context window** — this is your fundamental advantag
 - Downstream agents **read from `.analysis/` directly** — no need to relay through your context
 - Each phase's outputs become inputs for the next — point later agents to relevant prior-phase files so they build on existing knowledge
 
-**Launching agents**: Scope each agent to a specific analytical objective within a bounded context. Specify its `.analysis/` output path, reference relevant prior-phase findings, and keep your launch prompt lean — it consumes the agent's context budget.
+**Launching agents**: Scope each agent to a specific analytical objective within a bounded context. Specify its `.analysis/` output path, reference relevant prior-phase findings, and keep your launch prompt lean — it consumes the agent's context budget. Load the `agent-task-design` skill for launch prompt templates and heuristics.
 
 **Working memory**: Use `.analysis/orchestrator_state.md` to checkpoint your findings, open questions, and decomposition plan after each phase. This is your recovery point if your conversation is compacted. Read it at session start to recover from interruption.
 
 ## Orchestration Objective
 
-Decompose each phase's analytical goals into focused agent tasks that fully exploit context isolation — producing deep, systematic findings while keeping your own context lean enough to coordinate across all phases.
+Decompose each phase's analytical goals into focused agent tasks that fully exploit context isolation — producing deep, systematic findings while keeping your own context lean enough to coordinate across all phases. Load the `decomposition-strategy` skill for patterns by project type and agent-count heuristics.
 
-## Exploration Autonomy
+## Resilience
 
-You choose the decomposition strategy — whatever the dependency structure and project scale demand. When an agent returns low-confidence or contradictory results, adapt: narrow the scope, retry with a different strategy, or launch a verification agent. If an agent's output seems truncated or shallow, it likely hit context limits — relaunch with narrower scope. Persistent uncertainty after retries: flag for human review with specific open questions.
+When an agent returns low-confidence or contradictory results, adapt: narrow the scope, retry with a different strategy, or launch a verification agent. If an agent's output seems truncated or shallow, it likely hit context limits — relaunch with narrower scope. Persistent uncertainty after retries: flag for human review with specific open questions.
 
-## Validation Loop
+## Phase Transitions
 
 Before proceeding between phases, cross-check findings across agents for internal consistency. Contradictions indicate gaps that need investigation, not conclusions to accept. Verify that each phase's outputs provide sufficient foundation for the next phase's objectives.
 

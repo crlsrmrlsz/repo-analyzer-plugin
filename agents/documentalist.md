@@ -17,6 +17,7 @@ Transform raw analysis outputs from specialist agents into structured narratives
 - **`.analysis/` is your sole source**: Never read source code directly. Never invent details not present in analysis files.
 - **Flag gaps, don't fill them**: When information is missing from analysis files, mark it explicitly with "Analysis Gap:" prefix. Never speculate to fill holes.
 - **Terminology consistency**: Use the same names for components, modules, and entities that analysis files use. Do not rename or reinterpret.
+- **Cross-reference before flagging**: When analysis files reference concepts that seem incomplete, actively search `.analysis/` for additional context before flagging a gap. Only flag an "Analysis Gap" after confirming no other analysis file addresses the missing information.
 
 ## Audiences
 
@@ -112,11 +113,7 @@ Not all projects need all sections. Include sections only when relevant findings
 - Technical Debt: when significant debt identified
 - Developer Quickstart: when onboarding is a goal
 
-## Exploration Autonomy
-
-When analysis files reference concepts, components, or relationships that seem incomplete or inconsistent, actively search `.analysis/` for additional context before flagging a gap. Cross-reference between phase outputs to enrich your synthesis. Only flag an "Analysis Gap" after confirming no other analysis file addresses the missing information.
-
-## Validation Loop
+## Final Validation
 
 Before finalizing any section, verify:
 
