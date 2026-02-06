@@ -67,52 +67,78 @@ cp -r plugin-repo-analyzer .claude/plugins/
 
 ### Repository Access
 
-| Platform | Setup |
-|----------|-------|
-| GitHub | `gh auth login` |
-| GitLab | `glab auth login` |
-| Other Git | SSH key or HTTPS credentials |
-| SVN | `svn` CLI configured |
+Plain `git` is sufficient for basic analysis. Platform CLI tools unlock additional metadata — PRs/MRs, issues, CI/CD status, releases, contributor statistics — that the git-analyst agent uses for richer analysis.
+
+| Platform | Tool | Install | Auth |
+|----------|------|---------|------|
+| GitHub | `gh` (official) | `brew install gh` | `gh auth login` |
+| GitLab | `glab` (official) | `brew install glab` | `glab auth login` |
+| Bitbucket | No official CLI | — | Agent uses REST API via `curl` |
+| Other Git | — | — | SSH key or HTTPS credentials |
+| SVN | `svn` | `apt install subversion` | Credentials cached per-server |
 
 ### Database Access (Optional)
 
-Database analysis requires **read-only** access via DBHub MCP server or CLI fallback.
+Database analysis requires **read-only** access via MCP server or CLI fallback.
 
-**DBHub setup** (recommended):
+**DBHub setup** (recommended — supports PostgreSQL, MySQL, MariaDB, SQL Server, SQLite, Oracle):
 
-1. Create `.dbhub.toml`:
-```toml
-readonly = true
-
-[[databases]]
-name = "mydb"
-type = "postgres"  # postgres|mysql|mariadb|sqlite|sqlserver|oracle
-host = "localhost"
-port = 5432
-database = "myapp"
-user = "readonly_user"
-password = "password"
-```
-
-2. Add to `.mcp.json`:
+1. Add to `.mcp.json`:
 ```json
 {
   "mcpServers": {
     "dbhub": {
       "command": "npx",
-      "args": ["-y", "@bytebase/dbhub@latest", "--config", ".dbhub.toml"]
+      "args": ["-y", "@bytebase/dbhub@latest",
+               "--dsn", "postgres://readonly_user:password@localhost:5432/myapp",
+               "--readonly"]
     }
   }
 }
 ```
 
-For sensitive credentials, use `~/.dbhub.toml` instead.
+For multiple databases, use a TOML config:
+```toml
+# dbhub.toml
+[[sources]]
+id = "main"
+dsn = "postgres://readonly_user:password@localhost:5432/myapp"
 
-**CLI fallback**: If DBHub unavailable, agents use `psql`, `mysql`, `sqlite3`, `sqlcmd` with credentials from environment or config files.
+[[sources]]
+id = "analytics"
+dsn = "mysql://readonly_user:password@localhost:3306/analytics"
+```
+```json
+{
+  "mcpServers": {
+    "dbhub": {
+      "command": "npx",
+      "args": ["-y", "@bytebase/dbhub@latest", "--config", "dbhub.toml", "--readonly"]
+    }
+  }
+}
+```
 
-**Oracle**: Requires `ORACLE_LIB_DIR` pointing to Instant Client.
+For sensitive credentials, use environment variable expansion (`${DB_URL}`) in `.mcp.json` or place the config at `~/.dbhub.toml`.
 
-**MongoDB**: Use community `mongodb-mcp` server (not supported by DBHub).
+**Oracle**: Standard Oracle connections use `oracle://user:pass@host:1521/service_name`. For Oracle 11g or older, use the `bytebase/dbhub-oracle-thick` Docker image and set `ORACLE_LIB_DIR` pointing to Instant Client.
+
+**MongoDB**: Use the official MongoDB MCP server (not supported by DBHub):
+```json
+{
+  "mcpServers": {
+    "mongodb": {
+      "command": "npx",
+      "args": ["-y", "mongodb-mcp-server@latest", "--readOnly"],
+      "env": {
+        "MDB_MCP_CONNECTION_STRING": "mongodb://localhost:27017/mydb"
+      }
+    }
+  }
+}
+```
+
+**CLI fallback**: If no MCP server is configured, agents fall back to CLI tools (`psql`, `mysql`, `sqlite3`, `sqlcmd`, `sqlplus`) with user confirmation.
 
 ## Settings (Optional)
 
