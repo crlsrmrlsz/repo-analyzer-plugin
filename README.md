@@ -7,7 +7,7 @@ Multi-agent Claude Code plugin for comprehensive analysis of software repositori
 All prompts — orchestrator and agents — follow three design principles:
 
 1. **Goal-based**: Each agent receives an objective and success criteria, not a rigid procedure. Agents choose their investigation strategy based on the codebase.
-2. **Constrained**: Strategic Guardrails encode safety rules and ground truth sources (e.g., "read-only DB access", "confidence >= 80%"). These are hard boundaries, not suggestions.
+2. **Constrained**: Guardrails encode safety rules and ground truth sources (e.g., "read-only DB access", "confidence >= 80%"). These are hard boundaries, not suggestions.
 3. **Self-verifying**: Every agent validates findings for internal consistency as the final step of its process before producing output.
 
 Agents also receive light procedural scaffolding — a recommended step sequence they can adapt or reorder — since Sonnet benefits from a default path while retaining flexibility.
@@ -31,7 +31,7 @@ The orchestrator decomposes work across agents to exploit **context isolation** 
 |-------|-------|-----------|
 | **code-explorer** | sonnet | Produce evidence-based analysis of codebase structure and behavior with `file:line` evidence |
 | **database-analyst** | sonnet | Reverse-engineer data architectures: schema inventory, volume analysis, ORM drift detection |
-| **code-auditor** | sonnet | Assess code health across 7 dimensions with confidence-based filtering (>= 80%) and severity classification |
+| **code-auditor** | sonnet | Assess code health with confidence-based filtering (>= 80%) and severity classification |
 | **git-analyst** | sonnet | Extract VCS intelligence: contributor dynamics, hotspot risk scores, bus factor, velocity trends |
 | **documentalist** | sonnet | Synthesize `.analysis/` findings into audience-appropriate documentation with progressive disclosure |
 
@@ -170,7 +170,7 @@ repo-analyzer/
 ├── .gitignore
 ├── README.md
 ├── commands/
-│   └── repo-analyzer.md       # Orchestrator (OCV phases)
+│   └── repo-analyzer.md       # Orchestrator (phased analysis)
 ├── agents/
 │   ├── code-explorer.md        # Structure + behavior analysis
 │   ├── database-analyst.md     # Data layer forensics
