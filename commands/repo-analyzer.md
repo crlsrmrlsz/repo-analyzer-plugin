@@ -158,7 +158,7 @@ Non-domain audits can run parallel with Phase 3.
 
 **Output**: `.analysis/report/` — linked pages with a self-contained HTML package for sharing.
 
-**Constraints**: Documentation agents read exclusively from `.analysis/` phase directories — never raw source. Include only sections where relevant findings exist. Scale navigation depth to findings volume. The report must provide paths to all detailed agent findings in `.analysis/` so no analysis work is unreachable.
+**Constraints**: Documentation agents read exclusively from `.analysis/` phase directories — never raw source. Include only sections where relevant findings exist. Favor navigation over scrolling — concise pages linked across as many layers as complexity demands. The report must provide paths to all detailed agent findings in `.analysis/` so no analysis work is unreachable.
 
 **This phase succeeds when**: A reader can follow the report from "what is this?" to any depth they need including raw agent findings, the HTML is self-contained and shareable, and all claims trace to `.analysis/` files.
 
