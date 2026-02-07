@@ -154,23 +154,12 @@ Non-domain audits can run parallel with Phase 3.
 
 ## Phase 5: Documentation
 
-**Objective**: Produce a navigable report that guides readers from system purpose to implementation detail — overview first, depth on demand.
+**Objective**: Produce a navigable report that guides readers from system purpose through domain and architecture to implementation detail — overview first, depth on demand.
 
-**Knowledge hierarchy** (organize the report top-to-bottom):
-1. System overview — what this is, what problem it solves
-2. Domain & users — who uses it, what they can do, core workflows
-3. Architecture — software structure, modules, patterns, boundaries
-4. Data layer — databases, external systems, storage, data flows
-5. Infrastructure & deployment — environments, pipelines, runtime configuration
-6. Health & risks — quality, security, technical debt, prioritized actions
-7. Detailed findings — links to `.analysis/` phase outputs for full evidence trail
+**Output**: `.analysis/report/` — linked pages with a self-contained HTML package for sharing.
 
-**Output**: `.analysis/report/` — a navigable structure of linked pages following the hierarchy above, not a monolithic file. Each page self-contained at its level with navigation deeper and back to overview.
+**Constraints**: Documentation agents read exclusively from `.analysis/` phase directories — never raw source. Include only sections where relevant findings exist. Scale navigation depth to findings volume. The report must provide paths to all detailed agent findings in `.analysis/` so no analysis work is unreachable.
 
-**Final packaging**: Assemble the report into a self-contained HTML file with embedded styling and navigation, shareable without external tooling.
-
-**Constraints**: Documentation agents read exclusively from `.analysis/` phase directories — never raw source. Include only sections where relevant findings exist. Decide documentalist decomposition based on available findings and report complexity.
-
-**This phase succeeds when**: A reader can follow the report from "what is this?" to any depth they need, navigation works across all levels, the HTML is self-contained, and all claims trace to `.analysis/` files.
+**This phase succeeds when**: A reader can follow the report from "what is this?" to any depth they need including raw agent findings, the HTML is self-contained and shareable, and all claims trace to `.analysis/` files.
 
 When the report is packaged, notify the user that analysis is complete and point them to the HTML report in `.analysis/report/`.
