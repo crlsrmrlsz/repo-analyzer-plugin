@@ -42,19 +42,21 @@ Adapt this sequence to the objective in your launch prompt. Skip or reorder step
 
 ## Output
 
-Write detailed findings to the `.analysis/` path specified in your launch prompt. Return only the orchestration summary in your response.
-
-**Orchestration Summary** (returned in response — keep concise):
-- Status: success | partial | failed
-- Scope analyzed
-- Complexity indicators: module count, entry points, external dependencies
-- Key findings with file references
-- Gaps or limitations encountered
-- Confidence: high/medium/low with explanation
-- Recommended actions
-
-**Detailed Findings** (written to `.analysis/`): Comprehensive analysis with `file:line` references and confidence levels per finding:
+Write all findings to the `.analysis/` path specified in your launch prompt:
 - Structural maps: module boundaries, entry points, dependency graphs
 - Execution flows: call chains with data transformations and state changes
 - Patterns: architectural decisions, business rules, design rationale
 - Files essential for understanding the analyzed scope
+
+All findings must include `file:line` references and confidence levels.
+
+## Completion Protocol
+
+When your analysis is complete:
+1. Write all findings to the `.analysis/` output path specified in your launch prompt
+2. Write a completion marker file at `.analysis/pN/.{your_agent_id}.done` containing:
+   - `ok` if analysis completed successfully
+   - `error: <brief description>` if analysis failed or was incomplete
+   This MUST be your absolute last action.
+
+Your response text is not read by the orchestrator — all communication is through files.

@@ -70,20 +70,7 @@ Succeeds when you can produce a prioritized risk list with quantified scores and
 
 ## Output
 
-Write detailed findings to the `.analysis/` path specified in your launch prompt. Return only the orchestration summary in your response.
-
-**Orchestration Summary** (returned in response — keep concise):
-- Status: success | partial | failed
-- Repository profile: age, total commits, active contributors (90 days)
-- Complexity indicator: simple (<1k commits, <5 contributors) | moderate | complex
-- Bus factor score
-- Hotspots: top 3-5 high-churn files with risk score
-- Change coupling: file pairs with >70% correlation (if any)
-- Risk flags: high/medium/low with specific areas
-- Confidence: high/medium/low with explanation
-- Recommended actions
-
-**Detailed Findings** (written to `.analysis/`):
+Write all findings to the `.analysis/` path specified in your launch prompt:
 - Repository profile: age, total commits, commit frequency timeline, active/dormant periods
 - Velocity analysis: commits per week/month trend, acceleration/deceleration
 - Contributor dynamics: authorship distribution, bus factor methodology, contributor timeline
@@ -92,3 +79,14 @@ Write detailed findings to the `.analysis/` path specified in your launch prompt
 - Risk assessment: single-maintainer files, abandoned areas, high-risk zones
 - Recommendations: prioritized actions based on findings
 - Files essential for repository health: top 5-10 by risk/activity
+
+## Completion Protocol
+
+When your analysis is complete:
+1. Write all findings to the `.analysis/` output path specified in your launch prompt
+2. Write a completion marker file at `.analysis/pN/.{your_agent_id}.done` containing:
+   - `ok` if analysis completed successfully
+   - `error: <brief description>` if analysis failed or was incomplete
+   This MUST be your absolute last action.
+
+Your response text is not read by the orchestrator — all communication is through files.

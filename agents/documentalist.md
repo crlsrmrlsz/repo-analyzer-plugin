@@ -129,15 +129,15 @@ Before finalizing, verify:
 
 ## Output
 
-Write the documentation to the output path specified in your launch prompt. Return only the orchestration summary in your response.
+Write the documentation to the output path specified in your launch prompt.
 
-**Orchestration Summary** (returned in response — keep concise):
-- Status: success | partial | failed
-- Inputs consumed: `.analysis/` files read
-- Pages produced: names and output paths
-- Navigation: links validated / broken (if any)
-- Source gaps: missing information flagged
-- Diagram count: validated, failed (if any)
-- Confidence: high/medium/low with explanation
+## Completion Protocol
 
-**Detailed Findings** (written to output path): The documentation content.
+When your documentation is complete:
+1. Write all documentation files to the output path specified in your launch prompt
+2. Write a completion marker file at `.analysis/pN/.{your_agent_id}.done` containing:
+   - `ok` if documentation completed successfully
+   - `error: <brief description>` if documentation failed or was incomplete
+   This MUST be your absolute last action.
+
+Your response text is not read by the orchestrator — all communication is through files.

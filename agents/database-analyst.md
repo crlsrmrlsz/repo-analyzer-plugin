@@ -57,19 +57,7 @@ Succeeds when you can produce a three-column comparison (DB-only | Matched | ORM
 
 ## Output
 
-Write detailed findings to the `.analysis/` path specified in your launch prompt. Return only the orchestration summary in your response.
-
-**Orchestration Summary** (returned in response — keep concise):
-- Status: success | partial | failed — include connection method (DBHub/CLI)
-- Data sources: count, types, per-database object counts
-- Schema complexity: simple (<20 tables) | moderate | complex (>100 tables)
-- Drift score: % mismatch between DB and ORM, per database
-- Business logic distribution: % in database vs application
-- Risk flags: critical issues only
-- Confidence: high/medium/low with explanation
-- Recommended actions
-
-**Detailed Findings** (written to `.analysis/`):
+Write all findings to the `.analysis/` path specified in your launch prompt:
 - Connection summary: per-database type, version, host (sanitized), connection method
 - Schema inventory: all tables with column count, row count, size — organized by schema
 - Entity relationship map: foreign key and inferred relationships with confidence levels
@@ -79,3 +67,14 @@ Write detailed findings to the `.analysis/` path specified in your launch prompt
 - Business logic catalog: stored procedures, triggers, constraints with purpose
 - Query log: every query executed with purpose, execution time, rows returned
 - Files essential for understanding the data layer
+
+## Completion Protocol
+
+When your analysis is complete:
+1. Write all findings to the `.analysis/` output path specified in your launch prompt
+2. Write a completion marker file at `.analysis/pN/.{your_agent_id}.done` containing:
+   - `ok` if analysis completed successfully
+   - `error: <brief description>` if analysis failed or was incomplete
+   This MUST be your absolute last action.
+
+Your response text is not read by the orchestrator — all communication is through files.

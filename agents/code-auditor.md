@@ -59,19 +59,7 @@ Before finalizing, verify:
 
 ## Output
 
-Write detailed findings to the `.analysis/` path specified in your launch prompt. Return only the orchestration summary in your response.
-
-**Orchestration Summary** (returned in response — keep concise):
-- Status: success | partial | failed
-- Health score: 0-100 with brief rationale
-- Finding counts by severity and category
-- Test coverage: percentage or tested/untested ratio
-- Complexity hotspots: top 3-5 files
-- Tech debt markers: count (TODO/FIXME/HACK)
-- Confidence: high/medium/low with explanation
-- Recommended actions (prioritized)
-
-**Detailed Findings** (written to `.analysis/`): Organize by audit dimension, then severity. Each finding includes: confidence score, blast radius, `file:line` reference, evidence, impact, and remediation.
+Write all findings to the `.analysis/` path specified in your launch prompt. Organize by audit dimension, then severity. Each finding includes: confidence score, blast radius, `file:line` reference, evidence, impact, and remediation.
 
 Deliverables:
 - Overall health score (0-100) with scoring rationale
@@ -82,3 +70,14 @@ Deliverables:
 - Technical debt inventory
 - Prioritized action items
 - Files essential for understanding codebase health
+
+## Completion Protocol
+
+When your analysis is complete:
+1. Write all findings to the `.analysis/` output path specified in your launch prompt
+2. Write a completion marker file at `.analysis/pN/.{your_agent_id}.done` containing:
+   - `ok` if analysis completed successfully
+   - `error: <brief description>` if analysis failed or was incomplete
+   This MUST be your absolute last action.
+
+Your response text is not read by the orchestrator — all communication is through files.
