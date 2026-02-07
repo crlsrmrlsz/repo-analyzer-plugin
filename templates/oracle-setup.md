@@ -114,7 +114,7 @@ Restart Claude Code, then run:
 claude /repo-analyzer
 ```
 
-The orchestrator will confirm database connectivity during Phase 0 before proceeding.
+The orchestrator verifies database connectivity during Phase 0 as part of scope confirmation.
 
 ## CLI fallback
 

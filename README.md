@@ -48,7 +48,7 @@ The orchestrator command runs on whatever model the user launches Claude Code wi
 | 4. Health Audit | Evaluate quality, security, and technical debt | Justified health score + prioritized risk list |
 | 5. Documentation | Produce actionable, audience-layered documentation | All claims traceable, gaps explicitly flagged |
 
-The orchestrator pauses at checkpoints (Phases 0, 1, 2, 3, 5) for user confirmation before proceeding.
+The orchestrator runs autonomously through all phases, pausing only at Phase 0 for scope confirmation and when a genuine decision arises (scope changes, conflicting findings, missing access). Progress is visible via the task list.
 
 ## Installation
 
