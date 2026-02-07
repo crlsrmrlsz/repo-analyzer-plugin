@@ -17,9 +17,9 @@
   ### Communication
 
   - One orchestrator spawns N specialist subagents.
-  - Communication is file-based: agents write detailed findings to shared storage.
+  - All agents run in background and write findings to shared storage — they never return output to the orchestrator directly.
   - All agent outputs follow a predefined structured format so results are machine-parseable and comparable.
-  - The orchestrator reads agent-produced summaries to detect gaps and adapt the plan. It never analyzes source code directly.
+  - The orchestrator reads agent-produced summaries to track progress, detect gaps, and adapt the plan. It never analyzes source code directly.
 
   ### Task Decomposition
 
