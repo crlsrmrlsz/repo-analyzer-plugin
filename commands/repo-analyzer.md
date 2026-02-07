@@ -120,14 +120,23 @@ Non-domain audits can run parallel with Phase 3.
 
 ## Phase 5: Documentation
 
-**Objective**: Produce actionable, audience-appropriate documentation using progressive disclosure — executive summaries for decision-makers, visual architecture for tech leads, detailed references for developers.
+**Objective**: Produce a navigable report that guides readers from system purpose to implementation detail — overview first, depth on demand.
 
-**Output**: `.analysis/report/`
+**Knowledge hierarchy** (organize the report top-to-bottom):
+1. System overview — what this is, what problem it solves
+2. Domain & users — who uses it, what they can do, core workflows
+3. Architecture — software structure, modules, patterns, boundaries
+4. Data layer — databases, external systems, storage, data flows
+5. Infrastructure & deployment — environments, pipelines, runtime configuration
+6. Health & risks — quality, security, technical debt, prioritized actions
+7. Detailed findings — links to `.analysis/` phase outputs for full evidence trail
 
-**Constraints**: Documentation agents read exclusively from `.analysis/` phase directories — never raw source. Include only sections where relevant findings exist. The Executive Summary should be produced last, as it synthesizes all other sections.
+**Output**: `.analysis/report/` — a navigable structure of linked pages following the hierarchy above, not a monolithic file. Each page self-contained at its level with navigation deeper and back to overview.
 
-**Assembly**: Concatenate sections into `final_report.md`. Validate all Mermaid diagrams render correctly.
+**Final packaging**: Assemble the report into a self-contained HTML file with embedded styling and navigation, shareable without external tooling.
 
-**This phase succeeds when**: Each target audience can find the information they need at the appropriate level of detail, all claims are traceable to analysis files, and gaps are explicitly flagged.
+**Constraints**: Documentation agents read exclusively from `.analysis/` phase directories — never raw source. Include only sections where relevant findings exist. Decide documentalist decomposition based on available findings and report complexity.
 
-When the report is assembled, notify the user that analysis is complete and point them to `.analysis/report/final_report.md`.
+**This phase succeeds when**: A reader can follow the report from "what is this?" to any depth they need, navigation works across all levels, the HTML is self-contained, and all claims trace to `.analysis/` files.
+
+When the report is packaged, notify the user that analysis is complete and point them to the HTML report in `.analysis/report/`.

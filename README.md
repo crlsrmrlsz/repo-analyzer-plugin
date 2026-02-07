@@ -33,7 +33,7 @@ The orchestrator decomposes work across agents to exploit **context isolation** 
 | **database-analyst** | sonnet | Reverse-engineer data architectures: schema inventory, volume analysis, ORM drift detection |
 | **code-auditor** | sonnet | Assess code health with confidence-based filtering (>= 80%) and severity classification |
 | **git-analyst** | sonnet | Extract VCS intelligence: contributor dynamics, hotspot risk scores, bus factor, velocity trends |
-| **documentalist** | sonnet | Synthesize `.analysis/` findings into audience-appropriate documentation with progressive disclosure |
+| **documentalist** | sonnet | Synthesize `.analysis/` findings into navigable report with progressive depth and HTML packaging |
 
 The orchestrator command runs on whatever model the user launches Claude Code with (recommended: opus for best coordination).
 
@@ -46,7 +46,7 @@ The orchestrator command runs on whatever model the user launches Claude Code wi
 | 2. Architecture | Map structural organization, boundaries, and patterns | A new developer could navigate the project |
 | 3. Domain & Logic | Understand what the system *does* — domain model, rules, workflows | Core entities, relationships, and workflows mapped |
 | 4. Health Audit | Evaluate quality, security, and technical debt | Justified health score + prioritized risk list |
-| 5. Documentation | Produce actionable, audience-layered documentation | All claims traceable, gaps explicitly flagged |
+| 5. Documentation | Produce navigable report (overview → detail) packaged as self-contained HTML | Knowledge hierarchy navigable, HTML shareable, claims traceable |
 
 The orchestrator runs autonomously through all phases, pausing only at Phase 0 for scope confirmation and when a genuine decision arises (scope changes, conflicting findings, missing access). Progress is visible via the task list.
 
@@ -209,8 +209,9 @@ Results written to `.analysis/`:
 ├── p2/                       # Architecture findings
 ├── p3/                       # Domain findings
 ├── p4/                       # Health audit findings
-└── report/                   # Final documentation
-    └── final_report.md
+└── report/                   # Navigable report + self-contained HTML
+    ├── *.md                  # Linked report pages (overview → detail)
+    └── report.html           # Self-contained HTML report
 ```
 
 ## Requirements
