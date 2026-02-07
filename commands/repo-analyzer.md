@@ -22,15 +22,13 @@ You NEVER see agent output. All communication is through files. This prevents co
 
 Always use `Task(run_in_background=true)`. You receive only a task_id (~100 bytes). Each agent writes findings to `.analysis/pN/`. A SubagentStop hook automatically writes the `.done` completion marker when the agent finishes — agents do not write `.done` themselves.
 
-**Required prompt convention**: Every agent launch prompt MUST include these two lines so the completion hook knows where to write the marker:
+**Required prompt convention**: Every agent launch prompt MUST include this line so the completion hook knows where to write the marker:
 ```
 DONE_MARKER: .analysis/pN/.{agent_name}.done
-OUTPUT_PATH: .analysis/pN/{output_filename}.md
 ```
 Example for a code-explorer in phase 1:
 ```
 DONE_MARKER: .analysis/p1/.scope_code.done
-OUTPUT_PATH: .analysis/p1/scope_code.md
 ```
 
 ### Waiting for Completion
@@ -46,7 +44,6 @@ After shepherd confirms completion:
 1. Launch briefer agent in background: `Task(run_in_background=true)` with prompt specifying the phase directory, output path, and completion marker:
    ```
    DONE_MARKER: .analysis/pN/.briefer.done
-   OUTPUT_PATH: .analysis/pN/briefing.md
    ```
 2. Run `Bash(run_in_background=true)`: `./scripts/wait_for_file.sh .analysis/pN/briefing.md`
 3. Call `TaskOutput(wait_task_id, block=true, timeout=600000)`

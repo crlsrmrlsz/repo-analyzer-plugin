@@ -57,10 +57,10 @@ Confidence: <high/medium/low> — <one-line rationale>
 2. Read each file, extracting: status, key metrics, critical findings, errors, gaps
 3. Read `.done` marker files to assess agent completion status
 4. Synthesize into the briefing format above
-5. Write briefing to the OUTPUT_PATH specified in your launch prompt
+5. Write briefing to the output path specified in your launch prompt
 
 ## Completion Protocol
 
-Write the briefing to the OUTPUT_PATH specified in your launch prompt. A system hook automatically writes the `.done` completion marker when you finish — do not write it yourself.
+Write the briefing to the output path specified in your launch prompt. A system hook automatically writes the `.done` completion marker when you finish — do not write it yourself.
 
 Your response text is not read by the orchestrator — all communication is through files.

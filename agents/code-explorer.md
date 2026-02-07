@@ -52,6 +52,6 @@ All findings must include `file:line` references and confidence levels.
 
 ## Completion Protocol
 
-Write all findings to the OUTPUT_PATH specified in your launch prompt. A system hook automatically writes the `.done` completion marker when you finish — do not write it yourself.
+Write all findings to the `.analysis/` output path specified in your launch prompt. A system hook automatically writes the `.done` completion marker when you finish — do not write it yourself.
 
 Your response text is not read by the orchestrator — all communication is through files.

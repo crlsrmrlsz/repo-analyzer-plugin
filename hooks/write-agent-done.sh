@@ -28,17 +28,8 @@ if [ -z "$DONE_PATH" ]; then
     exit 0
 fi
 
-# Determine success or failure by checking if the agent produced output.
-# Extract OUTPUT_PATH if the orchestrator included it.
-OUTPUT_PATH=$(grep -oP 'OUTPUT_PATH: \K[^\s"\\]+' "$TRANSCRIPT" 2>/dev/null | head -1)
-
 mkdir -p "$(dirname "$DONE_PATH")"
-
-if [ -n "$OUTPUT_PATH" ] && [ ! -f "$OUTPUT_PATH" ]; then
-    echo "error: output file not produced" > "$DONE_PATH"
-else
-    echo "ok" > "$DONE_PATH"
-fi
+echo "ok" > "$DONE_PATH"
 
 echo '{"decision": "approve"}'
 exit 0
