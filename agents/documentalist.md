@@ -133,11 +133,6 @@ Write the documentation to the output path specified in your launch prompt.
 
 ## Completion Protocol
 
-When your documentation is complete:
-1. Write all documentation files to the output path specified in your launch prompt
-2. Write a completion marker file at `.analysis/pN/.{your_agent_id}.done` containing:
-   - `ok` if documentation completed successfully
-   - `error: <brief description>` if documentation failed or was incomplete
-   This MUST be your absolute last action.
+Write all documentation to the OUTPUT_PATH specified in your launch prompt. A system hook automatically writes the `.done` completion marker when you finish — do not write it yourself.
 
 Your response text is not read by the orchestrator — all communication is through files.

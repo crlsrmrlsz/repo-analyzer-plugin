@@ -57,14 +57,10 @@ Confidence: <high/medium/low> — <one-line rationale>
 2. Read each file, extracting: status, key metrics, critical findings, errors, gaps
 3. Read `.done` marker files to assess agent completion status
 4. Synthesize into the briefing format above
-5. Write briefing to the specified output path
-6. Write `.briefer.done` marker as your **absolute last action**
+5. Write briefing to the OUTPUT_PATH specified in your launch prompt
 
 ## Completion Protocol
 
-When your briefing is written:
-1. Write the briefing file to the output path specified in your launch prompt
-2. Write a completion marker file at `.analysis/pN/.briefer.done` containing `ok` or `error: <brief description>`
-   This MUST be your absolute last action.
+Write the briefing to the OUTPUT_PATH specified in your launch prompt. A system hook automatically writes the `.done` completion marker when you finish — do not write it yourself.
 
 Your response text is not read by the orchestrator — all communication is through files.
