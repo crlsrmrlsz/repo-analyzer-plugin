@@ -2,15 +2,6 @@
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "Task",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/log-agent-launch.sh"
-          }
-        ]
-      },
-      {
         "matcher": "TaskOutput",
         "hooks": [
           {
@@ -26,7 +17,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/log-agent-dispatched.sh"
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/on-agent-launch.sh"
           }
         ]
       }
@@ -37,7 +28,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/write-agent-done.sh"
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/on-agent-stop.sh"
           }
         ]
       }

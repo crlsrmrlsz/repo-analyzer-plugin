@@ -14,12 +14,13 @@
 
   ## Orchestrator–Subagent Architecture
 
-  ### Communication
+  ### Communication (Fire–Signal–Read)
 
-  - One orchestrator spawns N specialist subagents.
-  - All agents run in background and write findings to shared storage — they never return output to the orchestrator directly.
-  - All agent outputs follow a predefined structured format so results are machine-parseable and comparable.
-  - The orchestrator reads agent-produced summaries to track progress, detect gaps, and adapt the plan. It never analyzes source code directly.
+  - One orchestrator spawns N specialist subagents, all running in background (`run_in_background: true`). Agent output never enters the orchestrator's context.
+  - Agents write two-tier output: **detailed findings** (for the report) and **orchestrator summaries** (for decision-making), both to structured paths in `.analysis/`.
+  - A `SubagentStop` hook tracks agent completion via `.done` markers and assembles all summaries into a `briefing.md` when the last agent in a phase finishes.
+  - The orchestrator waits for `briefing.md` via a background Bash poller, then reads the single briefing file to steer execution. It never reads agent findings directly.
+  - A `PreToolUse` guard on `TaskOutput` blocks the orchestrator from accidentally pulling agent output into its context.
 
   ### Task Decomposition
 

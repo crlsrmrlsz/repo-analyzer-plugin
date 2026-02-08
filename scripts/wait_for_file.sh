@@ -5,11 +5,11 @@
 set -e
 
 FILEPATH=$1
-TIMEOUT=${2:-600}
+TIMEOUT=${2:-1800}
 ELAPSED=0
 
 if [ -z "$FILEPATH" ]; then
-    echo "ERROR|usage: wait_for_file.sh <filepath> [timeout_seconds]"
+    echo "ERROR: usage: wait_for_file.sh <filepath> [timeout_seconds]"
     exit 1
 fi
 

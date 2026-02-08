@@ -42,16 +42,25 @@ Adapt this sequence to the objective in your launch prompt. Skip or reorder step
 
 ## Output
 
-Write all findings to the `.analysis/` path specified in your launch prompt:
+Write two files to the paths specified in your launch prompt:
+
+**Detailed findings** → `findings/` path — full analysis for the report:
 - Structural maps: module boundaries, entry points, dependency graphs
 - Execution flows: call chains with data transformations and state changes
 - Patterns: architectural decisions, business rules, design rationale
 - Files essential for understanding the analyzed scope
+- All findings must include `file:line` references and confidence levels
 
-All findings must include `file:line` references and confidence levels.
+**Orchestrator summary** → `summaries/` path — decision-relevant micro-summary, 10 lines max:
+```
+Agent: {name} | Status: complete/partial/failed | Scope: {what was analyzed}
+---
+KEY FINDINGS:
+- {most decision-relevant finding first}
+- {finding 2}
+- {finding 3}
+GAPS: {what couldn't be determined}
+NEXT: {recommendation for downstream phases}
+```
 
-## Completion Protocol
 
-Write all findings to the `.analysis/` output path specified in your launch prompt. A system hook automatically writes the `.done` completion marker when you finish — do not write it yourself.
-
-Your response text is not read by the orchestrator — all communication is through files.

@@ -129,10 +129,18 @@ Before finalizing, verify:
 
 ## Output
 
-Write the documentation to the output path specified in your launch prompt.
+Write two files to the paths specified in your launch prompt:
 
-## Completion Protocol
+**Documentation pages** → `findings/` path — report sections as specified in your launch prompt.
 
-Write all documentation to the output path specified in your launch prompt. A system hook automatically writes the `.done` completion marker when you finish — do not write it yourself.
+**Orchestrator summary** → `summaries/` path — decision-relevant micro-summary, 10 lines max:
+```
+Agent: {name} | Status: complete/partial/failed | Scope: {sections produced}
+---
+KEY FINDINGS:
+- {sections completed with quality assessment}
+- {cross-references and links established}
+GAPS: {missing source data or incomplete sections}
+NEXT: {what remains for report completion}
+```
 
-Your response text is not read by the orchestrator — all communication is through files.
