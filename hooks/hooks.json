@@ -5,6 +5,18 @@
       "type": "command",
       "command": "${CLAUDE_PLUGIN_ROOT}/hooks/enforce-depth.sh",
       "timeout": 5000
+    },
+    {
+      "event": "PreToolUse",
+      "type": "command",
+      "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/log-agents.py start",
+      "timeout": 5000
+    },
+    {
+      "event": "PostToolUse",
+      "type": "command",
+      "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/log-agents.py stop",
+      "timeout": 5000
     }
   ]
 }
