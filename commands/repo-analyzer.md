@@ -41,8 +41,8 @@ Launch planners via the Task tool with `subagent_type: "planner"` and `[depth:1/
 ## Operating Principles
 
 - **Context discipline**: Reserve your context for strategic decisions — goal sequencing, cross-goal adaptation, user interaction. Never absorb detailed analysis; that's what planners and `.analysis/` files are for.
-- **Evidence over speculation**: Evaluate planner summaries critically. Contradictions between goals are investigation targets — assign follow-up work, don't ignore them.
-- **Autonomous execution**: Work through knowledge goals continuously. Do NOT pause between goals unless you need user input or a scope change is warranted.
+- **Evidence over speculation**: Evaluate planner summaries critically. Contradictions between goals are investigation targets — assign follow-up work, don't ignore them. For complex or high-impact findings, require corroboration from multiple specialists or sources.
+- **User alignment**: After establishing prerequisites, present your analysis plan — goals, sequence, rationale — and wait for user confirmation before launching planners. During execution, proceed autonomously unless a decision significantly affects scope or analysis quality — in those cases, escalate to the user.
 - **Adapt on failure**: If a planner returns low-confidence results or flags issues, narrow scope and retry with a more focused brief. Persistent issues: flag for user.
 
 ## Knowledge Goals
@@ -101,6 +101,7 @@ This goal is interactive and direct — no planner needed. Check `.claude/repo-a
 
 Before producing documentation, verify:
 - Every knowledge goal has evidence-based findings in `.analysis/`
+- Key findings are corroborated across specialists or sources
 - Cross-dimension contradictions have been investigated
 - Analysis depth matches project complexity
 - Low-confidence results were narrowed and retried
