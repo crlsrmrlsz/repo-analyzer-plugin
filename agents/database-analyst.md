@@ -57,9 +57,7 @@ Succeeds when you can produce a three-column comparison (DB-only | Matched | ORM
 
 ## Output
 
-Write two files to the paths specified in your launch prompt:
-
-**Detailed findings** → `findings/` path — full analysis for the report:
+Write all findings to the `.analysis/` path specified in your launch prompt:
 - Connection summary: per-database type, version, host (sanitized), connection method
 - Schema inventory: all tables with column count, row count, size — organized by schema
 - Entity relationship map: foreign key and inferred relationships with confidence levels
@@ -70,15 +68,8 @@ Write two files to the paths specified in your launch prompt:
 - Query log: every query executed with purpose, execution time, rows returned
 - Files essential for understanding the data layer
 
-**Orchestrator summary** → `summaries/` path — decision-relevant micro-summary, 10 lines max:
-```
-Agent: {name} | Status: complete/partial/failed | Scope: {what was analyzed}
----
-KEY FINDINGS:
-- {most decision-relevant finding first}
-- {finding 2}
-- {finding 3}
-GAPS: {what couldn't be determined}
-NEXT: {recommendation for downstream phases}
-```
+## Completion Protocol
 
+Write all findings to the `.analysis/` output path specified in your launch prompt. A system hook automatically writes the `.done` completion marker when you finish — do not write it yourself.
+
+Your response text is not read by the orchestrator — all communication is through files.
