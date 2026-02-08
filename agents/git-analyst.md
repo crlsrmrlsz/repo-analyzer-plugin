@@ -80,8 +80,3 @@ Write all findings to the `.analysis/` path specified in your launch prompt:
 - Recommendations: prioritized actions based on findings
 - Files essential for repository health: top 5-10 by risk/activity
 
-## Completion Protocol
-
-Write all findings to the `.analysis/` output path specified in your launch prompt. A system hook automatically writes the `.done` completion marker when you finish — do not write it yourself.
-
-Your response text is not read by the orchestrator — all communication is through files.

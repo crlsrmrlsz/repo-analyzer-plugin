@@ -68,8 +68,3 @@ Write all findings to the `.analysis/` path specified in your launch prompt:
 - Query log: every query executed with purpose, execution time, rows returned
 - Files essential for understanding the data layer
 
-## Completion Protocol
-
-Write all findings to the `.analysis/` output path specified in your launch prompt. A system hook automatically writes the `.done` completion marker when you finish — do not write it yourself.
-
-Your response text is not read by the orchestrator — all communication is through files.
