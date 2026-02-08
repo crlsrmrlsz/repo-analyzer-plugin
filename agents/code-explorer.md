@@ -50,3 +50,5 @@ Write all findings to the `.analysis/` path specified in your launch prompt:
 
 All findings must include `file:line` references and confidence levels.
 
+**Return discipline**: Return to your caller only a brief confirmation: what scope was analyzed, where findings were written (file path), and any critical issues requiring immediate attention. Do not include analysis content in your return — all findings belong in the `.analysis/` files.
+

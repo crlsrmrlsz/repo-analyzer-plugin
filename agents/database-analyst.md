@@ -68,3 +68,5 @@ Write all findings to the `.analysis/` path specified in your launch prompt:
 - Query log: every query executed with purpose, execution time, rows returned
 - Files essential for understanding the data layer
 
+**Return discipline**: Return to your caller only a brief confirmation: what scope was analyzed, where findings were written (file path), and any critical issues requiring immediate attention. Do not include analysis content in your return — all findings belong in the `.analysis/` files.
+
