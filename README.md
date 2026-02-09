@@ -1,112 +1,230 @@
 # Repository Analyzer Plugin
 
-Multi-agent Claude Code plugin for comprehensive analysis of software repositories with optional database reverse-engineering.
+A Claude Code plugin that performs deep, multi-agent analysis of any software repository. Run the `/repo-analyzer` slash command, and a team of specialized agents examines your codebase's architecture, domain logic, code health, and optionally its database — then delivers a self-contained HTML report.
 
-## Prompt Design Principles
+## Quick Start
 
-All prompts — orchestrator and agents — follow three design principles:
+```bash
+# 1. Clone the plugin
+git clone https://github.com/ccrs70/plugin-repo-analyzer.git
 
-1. **Goal-based**: Each agent receives an objective and success criteria, not a rigid procedure. Agents choose their investigation strategy based on the codebase.
-2. **Constrained**: Guardrails encode safety rules and ground truth sources (e.g., "read-only DB access", "confidence >= 80%"). These are hard boundaries, not suggestions.
-3. **Self-verifying**: Every agent validates findings for internal consistency as the final step of its process before producing output.
+# 2. Launch Claude Code in your project, loading the plugin
+cd /path/to/your/project
+claude --plugin-dir /path/to/plugin-repo-analyzer
 
-Agents also receive light procedural scaffolding — a recommended step sequence they can adapt or reorder — since Sonnet benefits from a default path while retaining flexibility.
-
-The orchestrator uses the same pattern at the phase level: each phase has an **Objective**, **Constraints**, and **"This phase succeeds when"** criteria.
-
-## Context Architecture
-
-The orchestrator decomposes work across agents to exploit **context isolation** — each agent gets a fresh context window, so focused agents go deeper than a single overloaded one.
-
-**Information flow** uses a two-tier output structure:
-- Agents **write detailed findings** to `.analysis/` files (path specified by orchestrator)
-- Agents **return only a concise summary** in their response — keeping the orchestrator's context lean
-- Downstream agents **read directly from `.analysis/`** — no relay through the orchestrator
-
-**Decomposition** is calibrated to project scale after Phase 1. The orchestrator chooses its decomposition strategy based on the project's actual complexity and dependency structure.
-
-## Agents
-
-| Agent | Model | Objective |
-|-------|-------|-----------|
-| **code-explorer** | sonnet | Produce evidence-based analysis of codebase structure and behavior with `file:line` evidence |
-| **database-analyst** | sonnet | Reverse-engineer data architectures: schema inventory, volume analysis, ORM drift detection |
-| **code-auditor** | sonnet | Assess code health with confidence-based filtering (>= 80%) and severity classification |
-| **git-analyst** | sonnet | Extract VCS intelligence: contributor dynamics, hotspot risk scores, bus factor, velocity trends |
-| **documentalist** | sonnet | Synthesize `.analysis/` findings into navigable report with progressive depth and HTML packaging |
-
-The orchestrator command runs on whatever model the user launches Claude Code with (recommended: opus for best coordination).
-
-## Analysis Phases
-
-| Phase | Objective | Succeeds When |
-|-------|-----------|---------------|
-| 0. Prerequisites | Establish ground truth about the analysis environment | Access confirmed, scope agreed with user |
-| 1. Scope | Determine project type, scale, and complexity | Complexity rating drives Phase 2-4 decomposition |
-| 2. Architecture | Map structural organization, boundaries, and patterns | A new developer could navigate the project |
-| 3. Domain & Logic | Understand what the system *does* — domain model, rules, workflows | Core entities, relationships, and workflows mapped |
-| 4. Health Audit | Evaluate quality, security, and technical debt | Justified health score + prioritized risk list |
-| 5. Documentation | Produce navigable report (overview → detail) packaged as self-contained HTML | Knowledge hierarchy navigable, HTML shareable, claims traceable |
-
-The orchestrator runs autonomously through all phases, pausing only at Phase 0 for scope confirmation and when a genuine decision arises (scope changes, conflicting findings, missing access). Progress is visible via the task list.
+# 3. Run the analyzer
+/repo-analyzer
+```
 
 ## Installation
 
+### Clone the repository
+
 ```bash
-# Clone the plugin
 git clone https://github.com/ccrs70/plugin-repo-analyzer.git
 ```
 
-Then launch Claude Code with `--plugin-dir` pointing to the cloned directory:
+There is no build step. The cloned directory *is* the plugin — you point Claude Code at it directly.
+
+### Per-session loading
+
+Launch Claude Code with `--plugin-dir` pointing to the cloned folder:
 
 ```bash
-cd /path/to/your/project
-claude --plugin-dir /path/to/plugin-repo-analyzer
+claude --plugin-dir ~/tools/plugin-repo-analyzer
 ```
 
-For example:
+To load multiple plugins at once, repeat the flag:
 
 ```bash
-claude --plugin-dir ~/projects/plugin-repo-analyzer
+claude --plugin-dir ~/tools/plugin-repo-analyzer --plugin-dir ~/tools/another-plugin
 ```
 
-To load multiple plugins at once:
+### Persistent loading
+
+Add a shell alias so the plugin loads automatically:
 
 ```bash
-claude --plugin-dir ~/projects/plugin-repo-analyzer --plugin-dir ~/projects/another-plugin
+# Add to ~/.bashrc or ~/.zshrc
+alias claude-ra='claude --plugin-dir ~/tools/plugin-repo-analyzer'
 ```
 
-## Prerequisites
+Then use `claude-ra` instead of `claude` for sessions that need the analyzer.
 
-### Repository Access
+### Verify installation
 
-Plain `git` is sufficient for basic analysis. Platform CLI tools unlock additional metadata — PRs/MRs, issues, CI/CD status, releases, contributor statistics — that the git-analyst agent uses for richer analysis.
+Inside Claude Code, type `/help`. The `/repo-analyzer` command should appear in the list of available commands.
 
-| Platform | Tool | Install | Auth |
-|----------|------|---------|------|
-| GitHub | `gh` (official) | `sudo apt install gh` or `sudo dnf install gh` | `gh auth login` |
-| GitLab | `glab` (official) | `sudo apt install glab` or `sudo dnf install glab` | `glab auth login` |
-| Bitbucket | No official CLI | — | Agent uses REST API via `curl` |
-| Other Git | — | — | SSH key or HTTPS credentials |
-| SVN | `svn` | `sudo apt install subversion` or `sudo dnf install subversion` | Credentials cached per-server |
+## Usage
 
-**Self-hosted GitLab**: If your GitLab instance is not on `gitlab.com`, specify the hostname when authenticating:
+```bash
+/repo-analyzer                       # Analyze current directory
+/repo-analyzer /path/to/repo         # Analyze a specific path
+/repo-analyzer --focus "auth"        # Focus on a specific area
+```
+
+### What to expect
+
+The analysis proceeds through six knowledge goals:
+
+1. **Prerequisites** — Confirms repository access, tooling, and database connectivity. Presents its plan and pauses for your confirmation.
+2. **Scope & Complexity** — Determines project type, tech stack, and scale. Pauses again so you can adjust the plan before deep analysis begins.
+3. **Architecture** — Maps system boundaries, entry points, module relationships, and design patterns.
+4. **Domain & Business Logic** — Identifies domain entities, business rules, API surfaces, and core workflows.
+5. **Health & Risk** — Audits code quality, security posture, and technical debt with confidence-scored findings.
+6. **Documentation** — Synthesizes everything into a navigable report packaged as self-contained HTML.
+
+The analyzer pauses at two gates — after prerequisites and after scope — for your input. Between those gates it runs autonomously, and progress is visible via the task list.
+
+### Recommended model
+
+Use Opus for the best orchestration quality. The orchestrator and planners run on whichever model you launch Claude Code with, while specialist agents always use Sonnet.
+
+## Per-Project Settings
+
+You can pre-configure repository and database details so the analyzer skips interactive discovery at startup.
+
+### Setup
+
+```
+your-project/
+└── .claude/
+    └── repo-analyzer.local.md       # Per-project settings
+```
+
+Copy the template into your project:
+
+```bash
+mkdir -p .claude
+cp /path/to/plugin-repo-analyzer/templates/repo-analyzer.local.md .claude/repo-analyzer.local.md
+```
+
+### Configuration reference
+
+The settings file uses YAML frontmatter. Uncomment and edit the values you need:
+
+```yaml
+---
+# -- Repository access --------------------------------------------------------
+vcs_platform: github              # github | gitlab | git | svn
+remote_url: https://github.com/org/repo
+
+# -- Database access (optional — remove this section if no database) ----------
+db_enabled: true
+db_type: postgres                  # postgres | mysql | mariadb | sqlite | sqlserver | oracle
+db_connection: dbhub               # dbhub | cli
+db_host: localhost
+db_port: 5432
+db_name: myapp
+db_user: readonly_user
+# IMPORTANT: Never put passwords here — use environment variables or .dbhub.toml
+
+# -- Analysis preferences (optional) -----------------------------------------
+focus_areas: ["auth", "api"]       # Limit analysis to specific areas
+exclusions: ["vendor", "node_modules", "generated"]
+output_format: detailed            # detailed | summary
+---
+```
+
+### Project notes
+
+Below the YAML frontmatter, add free-form markdown with context that should inform the analysis:
+
+```markdown
+# Project Notes
+
+- Monorepo with 3 services under services/ directory
+- Legacy migration in progress — ignore deprecated/ folder
+- Primary database is PostgreSQL, Redis used only for caching
+```
+
+### Notes
+
+- Add `.claude/*.local.md` to your `.gitignore` — settings files contain project-specific configuration and should not be committed.
+- Restart Claude Code after editing settings for changes to take effect.
+
+## Version Control Setup
+
+### Git
+
+Works out of the box. No additional setup required.
+
+### GitHub
+
+Install the GitHub CLI and authenticate:
+
+```bash
+sudo apt install gh    # or: sudo dnf install gh
+gh auth login
+```
+
+This unlocks additional metadata for the git-analyst agent: pull requests, issues, CI/CD status, releases, and contributor statistics.
+
+### GitLab
+
+Install the GitLab CLI and authenticate:
+
+```bash
+sudo apt install glab    # or: sudo dnf install glab
+glab auth login
+```
+
+**Self-hosted GitLab**: Specify your instance hostname when authenticating:
 
 ```bash
 glab auth login --hostname gitlab.example.com
 ```
 
-Choose **Personal Access Token** when prompted, and generate one in your GitLab instance at `https://gitlab.example.com/-/user_settings/personal_access_tokens` with scopes `api` and `read_repository`.
+Choose **Personal Access Token** when prompted. Generate one at `https://gitlab.example.com/-/user_settings/personal_access_tokens` with scopes `api` and `read_repository`.
 
-### Database Access (Optional)
+### SVN
 
-Database analysis requires **read-only** access via MCP server or CLI fallback.
+Install Subversion:
 
-**DBHub setup** (recommended — supports PostgreSQL, MySQL, MariaDB, SQL Server, SQLite, Oracle):
+```bash
+sudo apt install subversion    # or: sudo dnf install subversion
+```
 
-1. Create a `dbhub.toml` config with read-only mode:
+**Credential storage** — three options:
+
+1. **Auto-cache (default)**: Run any SVN command that contacts the server (e.g., `svn info <url>`), enter your credentials when prompted, and they are cached automatically in `~/.subversion/auth/svn.simple/`. Subsequent commands use the cached credentials without prompting.
+
+2. **Server config file**: Edit `~/.subversion/servers` to set default credentials per server group:
+   ```ini
+   [groups]
+   myserver = svn.example.com
+
+   [myserver]
+   username = your-username
+   # Password can be stored via auto-cache (option 1) after first use
+   ```
+
+3. **Command-line** (least secure — credentials visible in process list):
+   ```bash
+   svn info --username user --password pass svn://svn.example.com/repo
+   ```
+
+**Cache management**:
+- Cache location: `~/.subversion/auth/`
+- Clear cached credentials: `rm -rf ~/.subversion/auth/svn.simple/`
+
+### Bitbucket
+
+No official CLI. The git-analyst agent uses the Bitbucket REST API via `curl`. Authenticate with SSH keys or HTTPS credentials configured in Git.
+
+## Database Setup (Optional)
+
+Database analysis is optional. When enabled, the database-analyst agent reverse-engineers schemas, detects ORM drift, and profiles business data. Access must be **read-only**.
+
+Two strategies are supported: MCP servers (recommended) or CLI fallback.
+
+### DBHub
+
+[DBHub](https://github.com/bytebase/dbhub) supports PostgreSQL, MySQL, MariaDB, SQL Server, SQLite, and Oracle.
+
+**Single database** — create `dbhub.toml` in your project root:
+
 ```toml
-# dbhub.toml
 [[sources]]
 id = "main"
 dsn = "postgres://readonly_user:${DB_PASSWORD}@localhost:5432/myapp"
@@ -117,7 +235,8 @@ source = "main"
 readonly = true
 ```
 
-For multiple databases, add more `[[sources]]` and `[[tools]]` entries:
+**Multiple databases** — add more `[[sources]]` and `[[tools]]` entries:
+
 ```toml
 [[sources]]
 id = "main"
@@ -138,7 +257,8 @@ source = "analytics"
 readonly = true
 ```
 
-2. Add to `.mcp.json`:
+Add DBHub to `.mcp.json`:
+
 ```json
 {
   "mcpServers": {
@@ -152,11 +272,17 @@ readonly = true
 
 For sensitive credentials, use environment variable expansion (`${DB_URL}`) in `.mcp.json` or place the config at `~/.dbhub.toml`.
 
-**Oracle**: Two options available:
+### Oracle
+
+Two options available:
+
 - **SQLcl MCP Server** (recommended) — Oracle's official MCP server, built into SQLcl. No Docker needed, supports Oracle 19c–23ai. See [`templates/oracle-sqlcl-mcp-setup.md`](templates/oracle-sqlcl-mcp-setup.md) for the full setup guide.
 - **DBHub** — Use `oracle://user:pass@host:1521/service_name` as DSN. For Oracle 11g or older, use the `bytebase/dbhub-oracle-thick` Docker image. See [`templates/oracle-setup.md`](templates/oracle-setup.md) for the DBHub walkthrough.
 
-**MongoDB**: Use the official MongoDB MCP server (not supported by DBHub):
+### MongoDB
+
+Use the official MongoDB MCP server (not supported by DBHub):
+
 ```json
 {
   "mcpServers": {
@@ -171,36 +297,23 @@ For sensitive credentials, use environment variable expansion (`${DB_URL}`) in `
 }
 ```
 
-**CLI fallback**: If no MCP server is configured, agents fall back to CLI tools (`psql`, `mysql`, `sqlite3`, `sqlcmd`, `sqlplus`) with user confirmation.
+### CLI fallback
 
-## Settings (Optional)
+If no MCP server is configured, agents fall back to CLI tools (`psql`, `mysql`, `sqlite3`, `sqlcmd`, `sqlplus`) with user confirmation.
 
-Create `.claude/repo-analyzer.local.md` in your project root to pre-configure repository and database access. The orchestrator reads this file at Phase 0 to skip interactive discovery for already-configured values.
+### Where to place database files
 
-**Quick setup** — copy the template and uncomment the settings you need:
-
-```bash
-mkdir -p .claude
-cp path/to/repo-analyzer-plugin/templates/repo-analyzer.local.md .claude/repo-analyzer.local.md
 ```
-
-See [`templates/repo-analyzer.local.md`](templates/repo-analyzer.local.md) for all available settings with descriptions.
-
-After creating or editing settings, restart Claude Code for changes to take effect.
-
-**Important**: Add `.claude/*.local.md` to your `.gitignore` — settings files contain project-specific configuration and should not be committed.
-
-## Usage
-
-```bash
-claude /repo-analyzer                    # Analyze current directory
-claude /repo-analyzer /path/to/repo      # Analyze specific path
-claude /repo-analyzer --focus "auth"     # Focus on specific area
+your-project/
+├── .mcp.json                        # MCP server config
+├── dbhub.toml                       # DBHub connections
+└── .claude/
+    └── repo-analyzer.local.md       # db_enabled, db_type, etc.
 ```
 
 ## Output
 
-Results written to `.analysis/`:
+Results are written to `.analysis/` in the project root:
 
 ```
 .analysis/
@@ -214,17 +327,43 @@ Results written to `.analysis/`:
     └── report.html           # Self-contained HTML report
 ```
 
+The `report.html` file is fully self-contained — embedded CSS, navigation, and all content — so it can be shared, emailed, or opened in any browser without a server.
+
+Add `.analysis/` to your `.gitignore` to keep analysis output out of version control.
+
 ## Requirements
 
-- Claude Code CLI
-- Node.js 18+ (for MCP servers)
-- Git CLI (or `gh`/`glab` for GitHub/GitLab)
-- Database CLI tools or DBHub MCP server (optional)
+- **Claude Code CLI** (with plugin support)
+- **Node.js 18+** (for MCP servers)
+- **Python 3** (for plugin hooks)
+- **Git** (or `svn` for Subversion repositories)
+- **Optional**: `gh` (GitHub CLI), `glab` (GitLab CLI), database CLI tools
 
-## File Structure
+## Troubleshooting
+
+**Plugin not loading** — Verify the `--plugin-dir` path points to the cloned repository root (the directory containing `.claude-plugin/`). Restart Claude Code after changing flags.
+
+**`/repo-analyzer` not in `/help`** — Confirm the path is correct and contains `commands/repo-analyzer.md`. Check for typos in the directory name.
+
+**Hook permission denied** — Make the hook scripts executable:
+```bash
+chmod +x /path/to/plugin-repo-analyzer/hooks/enforce-depth.sh
+```
+
+**Database connection fails** — Test your MCP server independently (e.g., run the `npx` command from `.mcp.json` directly). Verify credentials and network access. Check that `db_enabled: true` is set in `.claude/repo-analyzer.local.md`.
+
+**SVN credentials not caching** — Run `svn info <repo-url>` manually outside Claude to trigger the credential prompt. Verify the cache exists at `~/.subversion/auth/svn.simple/`.
+
+**Analysis too slow or context exhausted** — Use `focus_areas` in your settings file to narrow the scope. For very large projects, focus on one subsystem at a time.
+
+## How It Works
+
+The plugin uses a hierarchical agent system: an orchestrator (Opus) decomposes the analysis into knowledge goals and delegates each to a planner (Opus), which further breaks work into focused tasks for specialist agents (Sonnet). Specialists write detailed findings to `.analysis/` files, while only concise summaries flow upward — keeping each agent's context lean and focused. This architecture allows the system to analyze large, complex codebases that would overwhelm a single agent. See [`CLAUDE.md`](CLAUDE.md) for the full design documentation.
+
+## Plugin File Structure
 
 ```
-repo-analyzer/
+plugin-repo-analyzer/
 ├── .claude-plugin/
 │   └── plugin.json                 # Plugin manifest
 ├── .gitignore
