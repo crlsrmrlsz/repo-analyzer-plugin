@@ -41,6 +41,8 @@ Establish the project's quality infrastructure before auditing code quality.
 
 Use infrastructure context from Pass 1 to focus on areas with weakest coverage and highest risk.
 
+**Code Quality**: Evaluate code organization, naming consistency, abstraction quality, error handling patterns, separation of concerns, and adherence to language/framework idioms. Assess function complexity, parameter counts, return value clarity, and test-to-code correspondence. Identify patterns that increase cognitive load for maintainers — inconsistent conventions, unclear control flow, or responsibilities split across unrelated modules.
+
 **Security Posture**: Identify vulnerabilities, exposed secrets, dependency risks, and weak auth patterns. Assess input boundaries, authentication flows, cryptographic usage, and dependency manifests. Distinguish confirmed vulnerabilities from potential risks.
 
 **Complexity & Maintainability**: Identify areas hardest to understand and modify — complexity hotspots, duplication, coupling. Measure from code (nesting depth, function length, file size, cross-module dependencies). Assess against the project's own conventions, not abstract ideals.
@@ -68,8 +70,9 @@ Deliverables:
 - Security issues with severity classification
 - Complexity hotspots (top 5-10 files/functions)
 - Technical debt inventory
+- Code quality assessment
 - Prioritized action items
 - Files essential for understanding codebase health
 
-**Return discipline**: Return to your caller only a brief confirmation: what scope was analyzed, where findings were written (file path), and any critical issues requiring immediate attention. Do not include analysis content in your return — all findings belong in the `.analysis/` files.
+**Return discipline**: Return to your caller only: scope analyzed, output file path, critical issues requiring immediate attention, and any knowledge specified as caller interest in your launch prompt. All detailed findings belong in `.analysis/` files.
 

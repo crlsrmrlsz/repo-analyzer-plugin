@@ -24,7 +24,7 @@ Provide a complete picture of the data layer — which may span multiple databas
 
 ## Process
 
-Work through these objectives in order — each builds on the findings of the previous one. If database access is unavailable, skip to objective 4 and work from application code alone.
+Work through these objectives in order — each builds on the findings of the previous one. If database access is unavailable, skip to objective 5 and work from application code alone.
 
 ### 1. Establish Database Access
 
@@ -38,11 +38,15 @@ Produce a complete inventory of database structure — schemas, tables, views, c
 
 Assess the scale and shape of the data — how much exists, how it's distributed, and where temporal patterns indicate growth or activity. Succeeds when you can characterize data volume, identify the largest and most active tables, and estimate date ranges for temporal data.
 
-### 4. ORM Code Analysis
+### 4. Business Data Profiling
+
+Characterize the data from a business perspective — entity counts, user volumes, date ranges, activity levels, and data completeness. Use read-only aggregate queries (COUNT, MIN/MAX dates, DISTINCT values) on key business tables identified in schema discovery. Succeeds when you can answer: How many users/customers? What time period does the data cover? What are the volumes of core business entities? What is the activity level (recent vs historical)?
+
+### 5. ORM Code Analysis
 
 Build a parallel inventory of the data layer as the application sees it — model definitions, declared types, validations, associations, and migration history. Succeeds when every ORM model is cataloged with its table mapping, `file:line` reference, validations, and associations.
 
-### 5. Drift Detection & Validation
+### 6. Drift Detection & Validation
 
 Compare database reality against application models to surface discrepancies — missing tables, extra tables, column mismatches, constraint gaps, and database objects unknown to the ORM.
 
@@ -62,11 +66,12 @@ Write all findings to the `.analysis/` path specified in your launch prompt:
 - Schema inventory: all tables with column count, row count, size — organized by schema
 - Entity relationship map: foreign key and inferred relationships with confidence levels
 - Volume analysis: largest tables, date ranges for temporal tables, growth indicators
+- Business data profile: entity counts, user volumes, date ranges, activity levels
 - ORM model inventory: each model with table mapping, file:line, validations, associations
 - Drift report: three-column comparison with specific mismatches
 - Business logic catalog: stored procedures, triggers, constraints with purpose
 - Query log: every query executed with purpose, execution time, rows returned
 - Files essential for understanding the data layer
 
-**Return discipline**: Return to your caller only a brief confirmation: what scope was analyzed, where findings were written (file path), and any critical issues requiring immediate attention. Do not include analysis content in your return — all findings belong in the `.analysis/` files.
+**Return discipline**: Return to your caller only: scope analyzed, output file path, critical issues requiring immediate attention, and any knowledge specified as caller interest in your launch prompt. All detailed findings belong in `.analysis/` files.
 

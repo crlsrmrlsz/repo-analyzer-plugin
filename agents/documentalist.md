@@ -131,5 +131,5 @@ Before finalizing, verify:
 
 Write the documentation to the output path specified in your launch prompt.
 
-**Return discipline**: Return to your caller only a brief confirmation: what scope was analyzed, where findings were written (file path), and any critical issues requiring immediate attention. Do not include analysis content in your return — all findings belong in the `.analysis/` files.
+**Return discipline**: Return to your caller only: scope analyzed, output file path, critical issues requiring immediate attention, and any knowledge specified as caller interest in your launch prompt. All detailed findings belong in `.analysis/` files.
 
