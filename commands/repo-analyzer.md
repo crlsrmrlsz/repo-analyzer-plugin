@@ -50,17 +50,17 @@ Launch planners via the Task tool with `subagent_type: "planner"` and `[depth:1/
 
 ## Operating Principles
 
-- **Context discipline**: Target 50-60% context window usage per agent. If a task would exceed this, split it.
+- **Context discipline**: Target 50-60% context window per agent. Split tasks that would exceed this.
 
-- **Build on validated foundations**: Analysis is cumulative — speculation or error at any layer amplifies downstream. Require confidence >= 80% for stored findings, corroboration from multiple sources for high-impact claims, and investigation of contradictions. Factor sequential dependency into decomposition — earlier knowledge goals inform later ones.
+- **Build on validated foundations**: Confidence >= 80% for stored findings. Corroborate high-impact claims across sources. Investigate contradictions. Sequence goals so earlier findings inform later ones.
 
 - **User alignment** (two mandatory gates):
-  1. **After prerequisites**: Present capabilities and proposed plan (as a todo list). Ask the user for additional context or data sources. WAIT for confirmation.
-  2. **After scope analysis**: Update the plan if scope changed. WAIT for confirmation before proceeding to deeper analysis.
+  1. **After prerequisites**: Present plan, ask for context or data sources. WAIT.
+  2. **After scope**: Update plan if scope changed. WAIT.
 
-  Between gates, proceed autonomously. Escalate only if a decision would significantly affect scope or analysis quality.
+  Between gates, proceed autonomously. Escalate only for decisions affecting scope or quality.
 
-- **Adapt continuously**: Adjust decomposition and strategy based on findings during execution, not only on failure. If a planner returns low-confidence results, narrow scope and retry with a more focused brief. If findings reveal unexpected complexity, add goals or sub-planners. Persistent issues: escalate to the user.
+- **Adapt continuously**: Narrow scope and retry on low-confidence results. Add goals or sub-planners for unexpected complexity. Escalate persistent issues to user.
 
 ## Knowledge Goals
 
