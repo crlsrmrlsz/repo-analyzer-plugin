@@ -1,7 +1,7 @@
 ---
 description: Deep multi-agent analysis of an unknown application repository with optional database access
 argument-hint: Optional focus area or repository path
-allowed-tools: ["Task", "Read", "Write", "Glob", "Grep"]
+allowed-tools: ["Task", "Read", "Write", "Glob", "Grep", "TaskCreate", "TaskUpdate", "TaskList"]
 ---
 
 # Repository Analyzer
@@ -60,6 +60,8 @@ Launch planners via the Task tool with `subagent_type: "planner"` and `[depth:1/
   2. **After scope**: Update plan if scope changed. WAIT.
 
   Between gates, proceed autonomously. Escalate only for decisions affecting scope or quality.
+
+- **Progress visibility**: At the start, use TaskCreate to create one task per knowledge goal (Prerequisites, Scope & Complexity, Architecture, Domain & Business Logic, Health & Risk, Documentation). Update each task to `in_progress` as you begin it and `completed` when done. If the user narrows scope, delete inapplicable tasks.
 
 - **Adapt continuously**: Narrow scope and retry on low-confidence results. Add goals or sub-planners for unexpected complexity. Escalate persistent issues to user.
 
