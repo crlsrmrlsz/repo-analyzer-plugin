@@ -9,6 +9,7 @@ input=$(cat)
 tool_name=$(echo "$input" | python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_name',''))")
 
 if [ "$tool_name" != "Task" ]; then
+    echo '{}'
     exit 0
 fi
 

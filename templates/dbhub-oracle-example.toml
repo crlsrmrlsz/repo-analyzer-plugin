@@ -3,10 +3,10 @@
 # Use environment variables for passwords: ${ORACLE_PASSWORD}
 
 [[sources]]
-id = "sdempleo"
-dsn = "oracle://up_ovi_alae:${ORACLE_PASSWORD}@oradesa.ijclm.es:1525/SDEMPLEO"
+id = "main"
+dsn = "oracle://readonly_user:${ORACLE_PASSWORD}@dbhost.example.com:1521/MYSERVICE"
 
 [[tools]]
 name = "execute_sql"
-source = "sdempleo"
+source = "main"
 readonly = true

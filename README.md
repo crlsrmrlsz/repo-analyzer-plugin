@@ -226,17 +226,26 @@ Results written to `.analysis/`:
 ```
 repo-analyzer/
 ├── .claude-plugin/
-│   └── plugin.json            # Plugin manifest
+│   └── plugin.json                 # Plugin manifest
 ├── .gitignore
+├── CLAUDE.md                       # Prompt design & orchestration rules
 ├── README.md
 ├── commands/
-│   └── repo-analyzer.md       # Orchestrator (phased analysis)
+│   └── repo-analyzer.md            # Orchestrator command
 ├── agents/
-│   ├── code-explorer.md        # Structure + behavior analysis
-│   ├── database-analyst.md     # Data layer forensics
-│   ├── code-auditor.md         # Health + security audit
-│   ├── git-analyst.md          # VCS intelligence
-│   └── documentalist.md        # Report synthesis
+│   ├── planner.md                  # Strategic planner (Opus) — decomposes objectives
+│   ├── code-explorer.md            # Structure + behavior analysis
+│   ├── database-analyst.md         # Data layer forensics
+│   ├── code-auditor.md             # Health + security audit
+│   ├── git-analyst.md              # VCS intelligence
+│   └── documentalist.md            # Report synthesis
+├── hooks/
+│   ├── hooks.json                  # Hook configuration
+│   ├── enforce-depth.sh            # Planner recursion depth guard
+│   └── log-agents.py               # Agent lifecycle JSONL logger
 └── templates/
-    └── repo-analyzer.local.md  # Settings template (copy to .claude/)
+    ├── repo-analyzer.local.md      # Settings template (copy to .claude/)
+    ├── dbhub-oracle-example.toml   # DBHub config example for Oracle
+    ├── oracle-setup.md             # Oracle DBHub setup guide
+    └── oracle-sqlcl-mcp-setup.md   # Oracle SQLcl MCP setup guide
 ```

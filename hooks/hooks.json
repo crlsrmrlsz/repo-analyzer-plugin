@@ -2,18 +2,21 @@
   "hooks": [
     {
       "event": "PreToolUse",
+      "matcher": { "tool_name": "Task" },
       "type": "command",
       "command": "${CLAUDE_PLUGIN_ROOT}/hooks/enforce-depth.sh",
       "timeout": 5000
     },
     {
       "event": "PreToolUse",
+      "matcher": { "tool_name": "Task" },
       "type": "command",
       "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/log-agents.py start",
       "timeout": 5000
     },
     {
       "event": "PostToolUse",
+      "matcher": { "tool_name": "Task" },
       "type": "command",
       "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/log-agents.py stop",
       "timeout": 5000
