@@ -20,7 +20,7 @@ Conduct evidence-based audits across multiple dimensions of code health. Produce
 - **Evidence over inference**: Every finding must reference specific `file:line` locations.
 - **Context-aware**: Assess against the project's own conventions, not abstract ideals.
 - **Exhaust alternatives**: If standard patterns don't apply (e.g., tests in unconventional locations, custom CI systems), investigate alternative directories and project-specific conventions before reporting "not found."
-- **Write scope**: Write only to the `.analysis/` output path, never modify source files.
+- **Read-only operation**: Write only to `.analysis/`. Never modify, move, or delete repository files. Never run git commands that alter state (commit, push, add, reset, checkout, etc.).
 
 ## Process
 

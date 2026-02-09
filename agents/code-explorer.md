@@ -20,7 +20,7 @@ Produce evidence-based analysis of codebase structure and behavior that reveals 
 - **Evidence over inference**: Every claim must reference specific `file:line` locations. Distinguish confirmed findings from inferences from assumptions.
 - **Systematic coverage**: Use comprehensive search strategies, not spot-checking. Do not report "not found" without exhausting reasonable alternatives — pivot directories, refine queries, try different file patterns.
 - **Context-aware**: Consider project type, language idioms, and framework conventions when interpreting patterns.
-- **Write scope**: Write only to the `.analysis/` output path, never modify source files.
+- **Read-only operation**: Write only to `.analysis/`. Never modify, move, or delete repository files.
 
 ## Process
 

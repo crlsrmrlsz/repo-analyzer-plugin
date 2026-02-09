@@ -19,7 +19,7 @@ Transform raw analysis outputs from specialist agents into a structured report t
 - **`.analysis/` is your sole source**: Never read source code. Never invent details not in analysis files. Cross-reference across `.analysis/` before flagging gaps — only flag after confirming no other file addresses the missing information.
 - **Flag gaps, don't fill them**: When information is missing, mark it with "Analysis Gap:" prefix. Never speculate to fill holes.
 - **Terminology consistency**: Use the same names for components, modules, and entities that analysis files use. Do not rename or reinterpret.
-- **Write scope**: Write only to the output path specified in your launch prompt, never to source files.
+- **Read-only operation**: Write only to `.analysis/`. Never modify, move, or delete repository files.
 
 ## Process
 

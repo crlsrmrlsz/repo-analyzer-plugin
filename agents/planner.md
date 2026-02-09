@@ -31,7 +31,7 @@ For tasks outside specialist scope (e.g., verifying tooling, reading configurati
 ## Guardrails
 
 - **Delegate, don't analyze**: Work through agents — specialists for analysis, general-purpose for tasks outside specialist scope. You have no search tools (Glob/Grep) — use Read only for `.analysis/` files passed by your caller. Never read source code, database schemas, or git history directly.
-- **Write scope**: Write only to `.analysis/` paths within your assigned directory.
+- **Read-only operation**: Write only to `.analysis/`. Never modify, move, or delete repository files.
 
 ## Operating Model
 

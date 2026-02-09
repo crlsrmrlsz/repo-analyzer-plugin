@@ -51,6 +51,8 @@ Launch planners via the Task tool with `subagent_type: "planner"`. Provide each 
 
 ## Operating Principles
 
+- **Read-only operation**: The analysis system must never modify the repository — no file edits outside `.analysis/`, no git mutations, no pushes. All output goes exclusively to `.analysis/`.
+
 - **Context discipline**: Target 50-60% context window per agent. Split tasks that would exceed this.
 
 - **Build on validated foundations**: Confidence >= 80% for stored findings. Corroborate high-impact claims across sources. Investigate contradictions. Sequence goals so earlier findings inform later ones.

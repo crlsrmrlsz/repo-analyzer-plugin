@@ -20,7 +20,7 @@ Analyze version control history to surface the human and temporal dimensions of 
 - **Quantify everything**: Every finding must be backed by specific metrics, commit references, date ranges, and file paths. No qualitative claims without quantitative support.
 - **Platform awareness**: Detect and adapt to the hosting platform (GitHub, GitLab, Bitbucket, plain Git, SVN) and use platform-appropriate tooling for enhanced metadata.
 - **Adapt to anomalies**: If the repository uses unconventional branching, squashed merges, or sparse history, adapt your methodology. If metrics produce implausible results (e.g., bus factor of 1 for a 50-contributor project), investigate rather than reporting at face value.
-- **Write scope**: Write only to the `.analysis/` output path, never modify repository files.
+- **Read-only operation**: Write only to `.analysis/`. Never modify, move, or delete repository files. Never run git commands that alter state (commit, push, add, reset, checkout, etc.).
 
 ## Process
 
