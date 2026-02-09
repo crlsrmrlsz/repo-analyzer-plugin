@@ -36,7 +36,7 @@ Work through these objectives in order — the infrastructure scan informs where
 
 Establish the project's quality infrastructure before auditing code quality.
 
-**Test Coverage**: Determine testing posture — infrastructure, coverage level, critical path gaps. Use coverage reports and test files as primary evidence; when absent, infer from test file presence and assertion density. Distinguish "untested" from "unable to determine."
+**Test Coverage**: Determine testing posture — infrastructure, coverage level, critical path gaps. Use coverage reports and test files as primary evidence; when absent, infer from test file presence and assertion density. Distinguish "untested" from "unable to determine." Assess test depth: do tests assert specific behavior and cover edge cases and failure paths, or only confirm happy-path execution?
 
 **CI/CD & Deployment**: Evaluate build, test, and deployment pipeline — automation coverage, test integration, deployment safeguards, secrets management. Use pipeline definitions and deployment scripts as evidence, not external CI platform state.
 
@@ -48,13 +48,13 @@ Succeeds when you can characterize the project's quality infrastructure — test
 
 Use infrastructure context from objective 1 to focus on areas with weakest coverage and highest risk.
 
-**Code Quality**: Evaluate code organization, naming consistency, abstraction quality, error handling patterns, separation of concerns, and adherence to language/framework idioms. Assess function complexity, parameter counts, return value clarity, and test-to-code correspondence. Identify patterns that increase cognitive load for maintainers — inconsistent conventions, unclear control flow, or responsibilities split across unrelated modules.
+**Code Quality**: Evaluate code organization, naming consistency, abstraction quality, error handling patterns, separation of concerns, and adherence to language/framework idioms. Assess function complexity, parameter counts, return value clarity, and test-to-code correspondence. Identify patterns that increase cognitive load for maintainers — inconsistent conventions, unclear control flow, or responsibilities split across unrelated modules. Compare the same concern (error handling, validation, logging) across peer components — inconsistency is a stronger signal than any individual issue. Check for suppressed linter warnings (eslint-disable, @SuppressWarnings, # noqa, noinspection) as evidence of systematic shortcutting.
 
 **Security Posture**: Identify vulnerabilities, exposed secrets, dependency risks, and weak auth patterns. Assess input boundaries, authentication flows, cryptographic usage, and dependency manifests. Distinguish confirmed vulnerabilities from potential risks.
 
-**Complexity & Maintainability**: Identify areas hardest to understand and modify — complexity hotspots, duplication, coupling. Measure from code (nesting depth, function length, file size, cross-module dependencies). Assess against the project's own conventions, not abstract ideals.
+**Complexity & Maintainability**: Identify areas hardest to understand and modify — complexity hotspots, duplication, coupling. Measure from code (nesting depth, function length, file size, cross-module dependencies). Assess against the project's own conventions, not abstract ideals. Estimate change amplification: how many files across how many layers must change for a typical new entity or endpoint? Assess local comprehensibility — whether a module can be understood without reading its transitive dependencies.
 
-**Technical Debt**: Inventory maintenance burden — explicit markers (TODO/FIXME/HACK), deprecated API usage, dead code, pattern inconsistencies. Distinguish intentional tradeoffs from unintentional drift.
+**Technical Debt**: Inventory maintenance burden — explicit markers (TODO/FIXME/HACK), deprecated API usage, dead code, pattern inconsistencies. Distinguish intentional tradeoffs from unintentional drift. Look for incomplete migrations — coexisting patterns for the same concern (two ORMs, callbacks alongside promises) indicate abandoned transitions. Characterize significant debt as concrete maintenance scenarios, not counts. Use git blame on debt markers to date them.
 
 **Documentation Accuracy**: Assess whether existing docs (README, API docs, setup guides) accurately reflect the codebase. Identify specific discrepancies with file references for both doc and source.
 
@@ -77,7 +77,8 @@ Write all findings to the `.analysis/` path specified in your launch prompt. Org
 - Test coverage summary (files tested vs untested)
 - Security issues with severity classification
 - Complexity hotspots (top 5-10 files/functions)
-- Technical debt inventory
+- Change amplification estimate (files/directories touched for a typical new feature)
+- Technical debt inventory with narrative characterization of highest-burden items
 - Code quality assessment
 - Prioritized action items
 - Files essential for understanding codebase health

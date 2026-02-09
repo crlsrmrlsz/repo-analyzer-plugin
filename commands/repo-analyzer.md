@@ -106,7 +106,7 @@ Check `.claude/repo-analyzer.local.md` for pre-configured settings. For multi-re
 
 **What to discover**: What is the quality and security posture — vulnerabilities, debt, maintainability?
 
-**Done when**: Justified health score assigned, prioritized risk list with remediation actions produced. Report only findings with confidence >= 80%.
+**Done when**: Justified health score assigned, prioritized risk list with remediation actions produced. Assessment should characterize maintenance burden in concrete terms — what operations are expensive and why — not just metric counts. Cross-file consistency, incomplete migrations, and change amplification are high-value signals. Report only findings with confidence >= 80%.
 
 
 ### Documentation

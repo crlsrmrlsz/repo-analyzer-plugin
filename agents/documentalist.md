@@ -93,6 +93,7 @@ These are building blocks — include only what the orchestrator requests and wh
 - Prioritized risk table: Risk, Category, Severity, Blast radius, Remediation, Effort
 - Top risks with business impact
 - Quick wins vs. strategic improvements
+- Maintenance burden narrative: what concrete development operations are expensive and why, beyond metric summaries
 
 **Technical Debt Roadmap** — *when significant debt identified*
 - Quick wins (high impact, low effort)

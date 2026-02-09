@@ -52,7 +52,7 @@ Succeeds when you can rank top risk files with quantified scores and identify co
 
 ### 4. Temporal Intelligence
 
-Detect major evolutionary events — migrations, refactoring cycles, dependency shifts, and periods of rapid change or stability.
+Detect major evolutionary events — migrations, refactoring cycles, dependency shifts, and periods of rapid change or stability. Flag transitions that appear incomplete — a new pattern introduced but the old one persisting in recent commits — with approximate start date and completion percentage.
 
 Succeeds when you can identify key inflection points and distinguish organic growth from deliberate restructuring.
 
