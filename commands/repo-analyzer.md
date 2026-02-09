@@ -49,6 +49,8 @@ Launch planners via the Task tool with `subagent_type: "planner"`. Provide each 
 - **Caller interest**: What specific knowledge you want in the return summary
 - **Output path**: Where to write the synthesized findings in `.analysis/`
 
+Encourage planners to launch as many specialists as the objective warrants — breadth of coverage outweighs the cost of additional agents.
+
 ## Operating Principles
 
 - **Read-only operation**: The analysis system must never modify the repository — no file edits outside `.analysis/`, no git mutations, no pushes. All output goes exclusively to `.analysis/`.
