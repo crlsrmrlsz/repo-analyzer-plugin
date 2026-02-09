@@ -6,3 +6,6 @@
 
 # Windows artifacts
 *:Zone.Identifier
+
+# macOS artifacts
+.DS_Store

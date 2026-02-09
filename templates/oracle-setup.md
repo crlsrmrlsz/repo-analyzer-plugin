@@ -41,7 +41,7 @@ readonly = true
 
 Set the password as an environment variable — never hardcode it:
 ```bash
-export ORACLE_PASSWORD="your_password_here"
+export ORACLE_PASSWORD="<replace_with_actual_password>"
 ```
 
 ### Oracle 11g or older

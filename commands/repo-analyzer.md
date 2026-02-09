@@ -1,6 +1,7 @@
 ---
 description: Deep multi-agent analysis of an unknown application repository with optional database access
 argument-hint: Optional focus area or repository path
+allowed-tools: ["Task", "Read", "Write", "Glob", "Grep"]
 ---
 
 # Repository Analyzer
