@@ -14,5 +14,31 @@
       "mcp__dbhub__*",
       "mcp__sqlcl__*"
     ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/log-agents.py\" start",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/log-agents.py\" stop",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
   }
 }

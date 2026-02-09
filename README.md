@@ -324,6 +324,7 @@ The plugin uses a hierarchical agent system: an orchestrator (Opus) decomposes t
 plugin-repo-analyzer/
 ├── .claude-plugin/
 │   └── plugin.json                 # Plugin manifest
+├── .gitattributes                     # Line ending enforcement
 ├── .gitignore
 ├── CLAUDE.md                       # Prompt design & orchestration rules
 ├── README.md
@@ -337,12 +338,11 @@ plugin-repo-analyzer/
 │   ├── git-analyst.md              # VCS intelligence
 │   └── documentalist.md            # Report synthesis
 ├── hooks/
-│   ├── hooks.json                  # Hook configuration
-│   ├── enforce-depth.sh            # Planner recursion depth guard
+│   ├── hooks.json                  # Hook configuration (agent lifecycle logging)
 │   └── log-agents.py               # Agent lifecycle JSONL logger
 └── templates/
     ├── repo-analyzer.local.md      # Settings template (copy to .claude/)
-    ├── settings.local.json         # Permissions template (copy to .claude/)
+    ├── settings.local.json         # Permissions + hooks template (copy to .claude/)
     ├── dbhub-oracle-example.toml   # DBHub config example for Oracle
     ├── oracle-setup.md             # Oracle DBHub setup guide
     └── oracle-sqlcl-mcp-setup.md   # Oracle SQLcl MCP setup guide

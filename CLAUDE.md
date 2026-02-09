@@ -40,10 +40,9 @@ The orchestrator is the root planner. It launches phase planners, which launch s
 - Each sub-agent receives only what it needs: focused objective, relevant prior findings, and the minimum toolset.
 - Target 50-60% context-window usage per agent to preserve analytical depth.
 
-### Recursion Controls
+### Delegation Enforcement
 
-- Depth tracked via `[depth:N/M]` markers in Task descriptions.
-- PreToolUse hook enforces the maximum. Default: 3 levels.
+- Planners have no search tools (Glob/Grep) — they can only delegate via Task and read `.analysis/` files via Read.
 - Sub-planners are the exception, not the norm. Most phases need only one planner.
 
 ## Verification

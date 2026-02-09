@@ -7,5 +7,8 @@
 # Windows artifacts
 *:Zone.Identifier
 
+# Python bytecode
+__pycache__/
+
 # macOS artifacts
 .DS_Store

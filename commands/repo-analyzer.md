@@ -42,7 +42,7 @@ Three channels connect agents at every level:
 
 ## Planner Interface
 
-Launch planners via the Task tool with `subagent_type: "planner"` and `[depth:1/M]` in the description (default M=3; increase for unusually complex projects). Provide each planner:
+Launch planners via the Task tool with `subagent_type: "planner"`. Provide each planner:
 - **Objective**: What to accomplish, with success criteria
 - **Context**: Paths to prior `.analysis/` findings relevant to this objective
 - **Constraints**: Boundaries, available specialists, scope limits
