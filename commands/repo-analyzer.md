@@ -72,7 +72,7 @@ The final analysis must address these dimensions — minimum expectations, not a
 
 **Done when**: Repository access confirmed, tooling available, database connectivity verified (if applicable).
 
-Handle directly — no planner needed. Check `.claude/repo-analyzer.local.md` for pre-configured settings. For multi-repo workspaces, organize `.analysis/` by repo name.
+Check `.claude/repo-analyzer.local.md` for pre-configured settings. For multi-repo workspaces, organize `.analysis/` by repo name.
 
 ### Scope & Complexity
 
