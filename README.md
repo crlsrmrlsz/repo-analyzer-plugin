@@ -83,6 +83,16 @@ mkdir -p .claude
 cp /path/to/plugin-repo-analyzer/templates/repo-analyzer.local.md .claude/repo-analyzer.local.md
 ```
 
+### Tool permissions
+
+The plugin's agents need authorization to use tools (Bash, file access, MCP servers, etc.). Copy the permissions template to skip interactive approval prompts:
+
+```bash
+cp /path/to/plugin-repo-analyzer/templates/settings.local.json .claude/settings.local.json
+```
+
+This pre-authorizes all tools the plugin uses. The file is `.local.json` so it won't be committed to your repository.
+
 ### Configuration reference
 
 The settings file uses YAML frontmatter. Uncomment and edit the values you need:
@@ -332,6 +342,7 @@ plugin-repo-analyzer/
 │   └── log-agents.py               # Agent lifecycle JSONL logger
 └── templates/
     ├── repo-analyzer.local.md      # Settings template (copy to .claude/)
+    ├── settings.local.json         # Permissions template (copy to .claude/)
     ├── dbhub-oracle-example.toml   # DBHub config example for Oracle
     ├── oracle-setup.md             # Oracle DBHub setup guide
     └── oracle-sqlcl-mcp-setup.md   # Oracle SQLcl MCP setup guide

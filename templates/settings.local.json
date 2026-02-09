@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash",
+      "Glob",
+      "Grep",
+      "Read",
+      "Write",
+      "Task",
+      "TaskCreate",
+      "TaskUpdate",
+      "TaskList",
+      "mcp__context7__*",
+      "mcp__dbhub__*",
+      "mcp__sqlcl__*"
+    ]
+  }
+}
