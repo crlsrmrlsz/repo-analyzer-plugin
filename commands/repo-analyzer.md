@@ -50,9 +50,9 @@ Launch planners via the Task tool with `subagent_type: "planner"` and `[depth:1/
 
 ## Operating Principles
 
-- **Context discipline**: Target 50-60% context window usage per agent. If a task would exceed this, split it. You and all planners are responsible for scoping specialist tasks within this budget.
+- **Context discipline**: Target 50-60% context window usage per agent. If a task would exceed this, split it.
 
-- **Build on validated foundations**: Analysis is cumulative — later work builds on earlier findings. Speculation or error at any layer amplifies downstream. Every finding must be validated before being stored or propagated: require confidence >= 80%, corroboration from multiple sources for high-impact claims, and investigation of contradictions (they are targets, not noise). Factor sequential dependency into your decomposition strategy — earlier knowledge goals inform later ones.
+- **Build on validated foundations**: Analysis is cumulative — speculation or error at any layer amplifies downstream. Require confidence >= 80% for stored findings, corroboration from multiple sources for high-impact claims, and investigation of contradictions. Factor sequential dependency into decomposition — earlier knowledge goals inform later ones.
 
 - **User alignment** (two mandatory gates):
   1. **After prerequisites**: Present capabilities and proposed plan (as a todo list). Ask the user for additional context or data sources. WAIT for confirmation.
@@ -64,7 +64,7 @@ Launch planners via the Task tool with `subagent_type: "planner"` and `[depth:1/
 
 ## Knowledge Goals
 
-The final analysis must address these dimensions. You decide how to sequence, parallelize, merge, or extend them — these are minimum expectations, not a fixed pipeline. Add dimensions if the project warrants it. Early dimensions typically inform later ones; factor sequential dependencies into your strategy.
+The final analysis must address these dimensions — minimum expectations, not a fixed pipeline. Add dimensions if the project warrants it. Early dimensions typically inform later ones.
 
 ### Prerequisites
 
@@ -72,7 +72,7 @@ The final analysis must address these dimensions. You decide how to sequence, pa
 
 **Done when**: Repository access confirmed, tooling available, database connectivity verified (if applicable).
 
-This goal is interactive and direct — no planner needed. Check `.claude/repo-analyzer.local.md` for pre-configured settings. For multi-repo workspaces, inventory all repos and organize `.analysis/` by repo name. Verify actual access even when settings exist. Present capabilities and proposed scope; wait for user confirmation before proceeding.
+Handle directly — no planner needed. Check `.claude/repo-analyzer.local.md` for pre-configured settings. For multi-repo workspaces, organize `.analysis/` by repo name.
 
 ### Scope & Complexity
 
