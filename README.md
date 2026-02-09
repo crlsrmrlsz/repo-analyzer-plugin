@@ -34,22 +34,6 @@ Launch Claude Code with `--plugin-dir` pointing to the cloned folder:
 claude --plugin-dir ~/tools/plugin-repo-analyzer
 ```
 
-To load multiple plugins at once, repeat the flag:
-
-```bash
-claude --plugin-dir ~/tools/plugin-repo-analyzer --plugin-dir ~/tools/another-plugin
-```
-
-### Persistent loading
-
-Add a shell alias so the plugin loads automatically:
-
-```bash
-# Add to ~/.bashrc or ~/.zshrc
-alias claude-ra='claude --plugin-dir ~/tools/plugin-repo-analyzer'
-```
-
-Then use `claude-ra` instead of `claude` for sessions that need the analyzer.
 
 ### Verify installation
 
@@ -208,9 +192,6 @@ sudo apt install subversion    # or: sudo dnf install subversion
 - Cache location: `~/.subversion/auth/`
 - Clear cached credentials: `rm -rf ~/.subversion/auth/svn.simple/`
 
-### Bitbucket
-
-No official CLI. The git-analyst agent uses the Bitbucket REST API via `curl`. Authenticate with SSH keys or HTTPS credentials configured in Git.
 
 ## Database Setup (Optional)
 
@@ -274,32 +255,16 @@ For sensitive credentials, use environment variable expansion (`${DB_URL}`) in `
 
 ### Oracle
 
-Two options available:
+**SQLcl MCP Server** (recommended) — Oracle's official MCP server, built into SQLcl. No Docker needed, supports Oracle 19c–23ai. See [`templates/oracle-sqlcl-mcp-setup.md`](templates/oracle-sqlcl-mcp-setup.md) for the full setup guide.
 
-- **SQLcl MCP Server** (recommended) — Oracle's official MCP server, built into SQLcl. No Docker needed, supports Oracle 19c–23ai. See [`templates/oracle-sqlcl-mcp-setup.md`](templates/oracle-sqlcl-mcp-setup.md) for the full setup guide.
-- **DBHub** — Use `oracle://user:pass@host:1521/service_name` as DSN. For Oracle 11g or older, use the `bytebase/dbhub-oracle-thick` Docker image. See [`templates/oracle-setup.md`](templates/oracle-setup.md) for the DBHub walkthrough.
-
-### MongoDB
-
-Use the official MongoDB MCP server (not supported by DBHub):
-
-```json
-{
-  "mcpServers": {
-    "mongodb": {
-      "command": "npx",
-      "args": ["-y", "mongodb-mcp-server@latest", "--readOnly"],
-      "env": {
-        "MDB_MCP_CONNECTION_STRING": "mongodb://localhost:27017/mydb"
-      }
-    }
-  }
-}
-```
 
 ### CLI fallback
 
 If no MCP server is configured, agents fall back to CLI tools (`psql`, `mysql`, `sqlite3`, `sqlcmd`, `sqlplus`) with user confirmation.
+
+### MCP access in agents
+
+The database-analyst agent includes MCP tools for `dbhub` and `sqlcl` servers in its `tools` list. If you use a differently-named MCP server, add its tools (in `mcp__<server>__<tool>` format) to the `tools` array in `agents/database-analyst.md`.
 
 ### Where to place database files
 
@@ -338,23 +303,6 @@ Add `.analysis/` to your `.gitignore` to keep analysis output out of version con
 - **Python 3** (for plugin hooks)
 - **Git** (or `svn` for Subversion repositories)
 - **Optional**: `gh` (GitHub CLI), `glab` (GitLab CLI), database CLI tools
-
-## Troubleshooting
-
-**Plugin not loading** — Verify the `--plugin-dir` path points to the cloned repository root (the directory containing `.claude-plugin/`). Restart Claude Code after changing flags.
-
-**`/repo-analyzer` not in `/help`** — Confirm the path is correct and contains `commands/repo-analyzer.md`. Check for typos in the directory name.
-
-**Hook permission denied** — Make the hook scripts executable:
-```bash
-chmod +x /path/to/plugin-repo-analyzer/hooks/enforce-depth.sh
-```
-
-**Database connection fails** — Test your MCP server independently (e.g., run the `npx` command from `.mcp.json` directly). Verify credentials and network access. Check that `db_enabled: true` is set in `.claude/repo-analyzer.local.md`.
-
-**SVN credentials not caching** — Run `svn info <repo-url>` manually outside Claude to trigger the credential prompt. Verify the cache exists at `~/.subversion/auth/svn.simple/`.
-
-**Analysis too slow or context exhausted** — Use `focus_areas` in your settings file to narrow the scope. For very large projects, focus on one subsystem at a time.
 
 ## How It Works
 

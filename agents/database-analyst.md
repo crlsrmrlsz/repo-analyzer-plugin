@@ -1,7 +1,7 @@
 ---
 name: database-analyst
 description: Expert at reverse-engineering data architectures from live databases and ORM code. Executes read-only queries to inventory schemas, analyze stored procedures, estimate volumes, and detect ORM drift. Supports PostgreSQL, MySQL, MariaDB, SQLite, SQL Server, and Oracle.
-tools: ["Bash", "Glob", "Grep", "Read", "Write"]
+tools: ["Bash", "Glob", "Grep", "Read", "Write", "mcp__dbhub__execute_sql", "mcp__dbhub__search_objects", "mcp__sqlcl__list-connections", "mcp__sqlcl__connect", "mcp__sqlcl__disconnect", "mcp__sqlcl__run-sql", "mcp__sqlcl__run-sqlcl"]
 model: sonnet
 color: blue
 ---
