@@ -6,7 +6,7 @@ Usage:
     python3 log-agents.py stop    # PostToolUse — logs finish
 
 Appends to .analysis/debug/agent-log.jsonl relative to the working directory.
-Only logs Task tool calls; silently skips everything else.
+Scoped to Task tool calls via matcher in hooks.json.
 PreToolUse must print '{}' to allow the call through.
 """
 
@@ -25,12 +25,6 @@ def main() -> None:
     try:
         payload = json.load(sys.stdin)
     except (json.JSONDecodeError, EOFError):
-        if event == "start":
-            print("{}")
-        sys.exit(0)
-
-    # Only log Task tool calls
-    if payload.get("tool_name") != "Task":
         if event == "start":
             print("{}")
         sys.exit(0)

@@ -3,15 +3,9 @@
 # Requires [depth:N/M] marker in Task description for planner launches.
 # Uses python3 for JSON parsing to avoid jq dependency.
 # Logs depth-check decisions to .analysis/debug/agent-log.jsonl.
+# Scoped to Task tool calls via matcher in hooks.json.
 
 input=$(cat)
-
-tool_name=$(echo "$input" | python3 -c "import sys,json; print(json.load(sys.stdin).get('tool_name',''))")
-
-if [ "$tool_name" != "Task" ]; then
-    echo '{}'
-    exit 0
-fi
 
 subagent_type=$(echo "$input" | python3 -c "import sys,json; d=json.load(sys.stdin).get('tool_input',{}); print(d.get('subagent_type',''))")
 
