@@ -111,9 +111,9 @@ When asked to produce the final HTML report:
 - Read the markdown report pages from `.analysis/report/`
 - Assemble into a single self-contained HTML file with embedded CSS
 - Include a navigation sidebar or index reflecting the report hierarchy
-- Ensure Mermaid diagrams render (embed Mermaid JS or convert to inline SVG)
+- **No external dependencies**: Do not use CDN links, external scripts, or any remote resources. The file must render fully when opened offline
+- **Mermaid diagrams**: Pre-render all Mermaid diagrams as inline SVG elements in the HTML. Do not include the Mermaid JS library — convert diagram source to `<svg>` markup before writing the file
 - Preserve all internal links as anchor navigation
-- Output must work when opened as a local file — no external dependencies
 
 ### Validation
 

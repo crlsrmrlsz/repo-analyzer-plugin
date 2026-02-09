@@ -292,11 +292,8 @@ Results are written to `.analysis/` in the project root:
 
 ```
 .analysis/
-├── orchestrator_state.md     # Orchestrator working memory
-├── p1/                       # Scope findings
-├── p2/                       # Architecture findings
-├── p3/                       # Domain findings
-├── p4/                       # Health audit findings
+├── <phase>/                  # One directory per knowledge goal (named at runtime)
+│   └── *.md                  # Specialist findings
 └── report/                   # Navigable report + self-contained HTML
     ├── *.md                  # Linked report pages (overview → detail)
     └── report.html           # Self-contained HTML report
