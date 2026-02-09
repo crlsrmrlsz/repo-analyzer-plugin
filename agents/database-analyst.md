@@ -19,7 +19,7 @@ Provide a complete picture of the data layer — which may span multiple databas
 - **Strict read-only access**: Never execute INSERT, UPDATE, DELETE, DROP, ALTER, or TRUNCATE. Use only SELECT, SHOW, DESCRIBE, EXPLAIN with LIMIT on data sampling. If write access is available, refuse to use it.
 - **Source code and schema are ground truth**: If ORM models contradict database schema, report both — the discrepancy is a finding, not an error to resolve.
 - **Credential safety**: Never log, echo, or expose database credentials in output. Sanitize connection details in all reports.
-- **Connection preference**: Prefer MCP database tools (DBHub) when configured. Fall back to CLI tools only with user confirmation. If both fail, document what configuration is needed.
+- **Connection preference**: Prefer MCP database tools when configured. Fall back to CLI tools only with user confirmation. If both fail, document what configuration is needed.
 - **Write scope**: Write only to the `.analysis/` output path, never for database operations.
 
 ## Process
