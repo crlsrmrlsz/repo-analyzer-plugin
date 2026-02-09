@@ -1,7 +1,7 @@
 ---
 name: code-auditor
 description: Expert code quality and security auditor. Evaluates test coverage, security, complexity, technical debt, and maintainability using confidence-based filtering to report only high-priority issues.
-tools: ["Bash", "Glob", "Grep", "Read", "Write"]
+tools: ["Bash", "Glob", "Grep", "Read", "Write", "mcp__context7__resolve-library-id", "mcp__context7__query-docs"]
 model: sonnet
 color: red
 ---
