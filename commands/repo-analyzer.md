@@ -104,16 +104,8 @@ Handle directly — no planner needed. Check `.claude/repo-analyzer.local.md` fo
 
 ### Documentation
 
+**Precondition**: All prior knowledge goals complete with evidence-based findings in `.analysis/`.
+
 **What to produce**: A navigable report from system overview to implementation detail, packaged as self-contained HTML.
 
 **Done when**: Reader can navigate from "what is this?" to any depth of detail, HTML is self-contained with embedded styling and navigation, all claims trace to `.analysis/` files.
-
-
-## Quality Contract
-
-Before producing documentation, verify:
-- Every knowledge goal has evidence-based findings in `.analysis/`
-- Key findings are corroborated across specialists or sources
-- Cross-dimension contradictions have been investigated
-- Analysis depth matches project complexity
-- Low-confidence results were narrowed and retried
