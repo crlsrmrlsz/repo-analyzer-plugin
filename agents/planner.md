@@ -45,4 +45,4 @@ How you achieve your objective is your decision. These are the quality standards
 
 ## Output
 
-Write your synthesized summary to the `.analysis/` path specified in your launch prompt — a coherent narrative for your objective built from agent findings.
+Write your synthesized summary to the `.analysis/` path specified in your launch prompt — a coherent narrative for your objective built from agent findings, referencing the `.analysis/` paths of each specialist's detailed output so the synthesis serves as a navigable entry point into the evidence.

@@ -35,7 +35,7 @@ Three channels connect agents at every level:
 
 1. **Launch context** (downward): Each agent receives an objective, constraints, paths to prior `.analysis/` findings (not their content), and a **caller interest** — the specific knowledge the caller wants included in the return.
 
-2. **Findings** (persistent): All detailed analysis is written to `.analysis/` files. Downstream agents reference these files by path. This is the system's shared memory.
+2. **Findings** (persistent): All detailed analysis is written to `.analysis/` files. Downstream agents reference these files by path. This is the system's shared memory — planner summaries link to specialist outputs, forming a navigable path from overview to evidence.
 
 3. **Return summary** (upward): Every agent returns only a concise summary to its caller — key findings, decisions made, issues needing escalation, and any knowledge the caller requested. The planner layer absorbs and synthesizes specialist output; this is the structural protection for orchestrator context.
 

@@ -39,7 +39,7 @@ Every page in the report participates in a navigation structure:
 - **Downward links**: Point to pages with more detail on subtopics
 - **Upward links**: Return to the parent overview or report index
 - **Cross-references**: Link to related topics at the same depth level
-- **Evidence links**: Point to raw `.analysis/` phase files for full findings
+- **Evidence links**: Follow the planner-to-specialist structure in `.analysis/` — link to planner summaries for context and to specialist files for detailed evidence, at the point in the report where each is relevant.
 
 Keep page sizes manageable — split rather than scroll. Use clear section headers as navigation anchors.
 
