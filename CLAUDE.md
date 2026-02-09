@@ -19,7 +19,7 @@ Sonnet agents receive light procedural scaffolding — a recommended step sequen
 - **Planners** (Opus): Decompose objectives, delegate to specialists or sub-planners, synthesize results. Never read source code.
 - **Specialists** (Sonnet): Execute focused, well-scoped analysis tasks. Write findings to `.analysis/`.
 
-The orchestrator is the root planner. It launches phase planners, which launch specialists (or sub-planners for complex tasks).
+The orchestrator is the root planner. It launches phase planners, which launch specialists or general purpose agents (or sub-planners for complex tasks).
 
 ### Communication
 

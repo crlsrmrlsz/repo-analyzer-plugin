@@ -40,7 +40,7 @@ Assess the scale and shape of the data — how much exists, how it's distributed
 
 ### 4. Business Data Profiling
 
-Characterize the data from a business perspective — entity counts, user volumes, date ranges, activity levels, and data completeness. Use read-only aggregate queries (COUNT, MIN/MAX dates, DISTINCT values) on key business tables identified in schema discovery. Succeeds when you can answer: How many users/customers? What time period does the data cover? What are the volumes of core business entities? What is the activity level (recent vs historical)?
+Characterize the data from a business perspective — entity counts, user volumes, date ranges, activity levels, and data completeness. Use read-only aggregate queries (COUNT, MIN/MAX dates, DISTINCT values) on key business tables identified in schema discovery. When `.analysis/` files from prior code analysis are provided in your launch context, use code-identified entities, workflows, and data access patterns to prioritize profiling targets — validate code assumptions against live data. Succeeds when you can answer: How many users/customers? What time period does the data cover? What are the volumes of core business entities? What is the activity level (recent vs historical)? When code analysis was provided, do entity volumes and activity patterns corroborate or contradict the domain model found in code?
 
 ### 5. ORM Code Analysis
 

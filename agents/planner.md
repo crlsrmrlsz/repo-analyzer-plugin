@@ -21,7 +21,7 @@ Receive an analytical objective and decide which specialist agents to launch, ho
 | Agent | Capability | Key constraint |
 |-------|-----------|---------------|
 | code-explorer | Structural and behavioral codebase analysis | Source code only, no generated artifacts |
-| database-analyst | Schema inventory, ORM drift, data architecture | Strict read-only DB access |
+| database-analyst | Schema inventory, ORM drift, data architecture, operational profiling | Strict read-only DB access |
 | code-auditor | Security, quality, complexity, technical debt | Reports only findings with confidence >= 80% |
 | git-analyst | Commit history, contributors, hotspots, risk | Metadata only, never reads file contents |
 | documentalist | Synthesize `.analysis/` into audience-appropriate docs | Reads only from `.analysis/`, never source code |

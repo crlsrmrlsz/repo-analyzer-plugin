@@ -24,7 +24,7 @@ You are an orchestrator coordinating a hierarchical agent system to analyze an u
 | Agent | Capability |
 |-------|-----------|
 | code-explorer | Structural and behavioral codebase analysis |
-| database-analyst | Schema inventory, ORM drift, data architecture |
+| database-analyst | Schema inventory, ORM drift, data architecture, operational profiling |
 | code-auditor | Security, quality, complexity, technical debt |
 | git-analyst | Commit history, contributors, hotspots, evolution |
 | documentalist | Synthesize `.analysis/` into audience-appropriate documents |
@@ -99,7 +99,7 @@ Check `.claude/repo-analyzer.local.md` for pre-configured settings. For multi-re
 
 **What to discover**: What does the system do — domain model, business rules, API surface, core workflows?
 
-**Done when**: Domain terms understood, core entities and relationships identified, primary workflows mapped. Cross-validate findings against multiple sources; inconsistencies are findings, not errors. When database access is available, business data is profiled: entity counts, time frames, user volumes, and activity indicators are documented.
+**Done when**: Domain terms understood, core entities and relationships identified, primary workflows mapped, and the data access layer characterized (repositories, query patterns, caching strategies). Cross-validate findings against multiple sources; inconsistencies are findings, not errors. When database access is available, use code-identified entities and workflows to target business data profiling: entity populations, time frames, user volumes, and activity patterns documented with aggregate queries — turning abstract domain concepts into quantified operational reality.
 
 
 ### Health & Risk

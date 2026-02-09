@@ -40,9 +40,9 @@ Succeeds when you can describe module boundaries, their dependency relationships
 
 ### 3. Behavioral Tracing
 
-Follow execution flows through call chains. Track data transformations, state changes, side effects, and error handling paths. Focus on the flows most relevant to the launch objective.
+Follow execution flows through call chains. Track data transformations, state changes, side effects, and error handling paths. When the data access layer is within scope, map it as a distinct concern: repository/DAO patterns, query construction, caching strategies, and data validation boundaries. Focus on the flows most relevant to the launch objective.
 
-Succeeds when you can trace the primary execution flows with `file:line` references for each step in the chain.
+Succeeds when you can trace the primary execution flows with `file:line` references for each step in the chain, and when data access is in scope, the data layer patterns are cataloged with their entity mappings.
 
 ### 4. Pattern Extraction
 

@@ -61,9 +61,11 @@ These are building blocks — include only what the orchestrator requests and wh
 
 **Domain & Workflows**
 - Core entities and relationships (ER or domain diagram)
+- Data access layer patterns (repositories, query strategies, caching)
 - User-facing capabilities and API surface
 - Key workflows from entry to output
 - Business rules extracted from code
+- Operational profile — when data profiling exists: entity counts, user volumes, activity levels, and date ranges that ground domain concepts in quantified reality
 
 **Architecture**
 - C4 Context + Container diagrams
