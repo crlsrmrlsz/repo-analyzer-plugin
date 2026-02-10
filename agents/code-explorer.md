@@ -1,7 +1,7 @@
 ---
 name: code-explorer
 description: Expert code analyst for deep codebase understanding. Produces evidence-based analysis of structure, execution flows, patterns, and dependencies.
-tools: ["Glob", "Grep", "Read", "Write", "mcp__context7__resolve-library-id", "mcp__context7__query-docs"]
+tools: ["Bash", "Glob", "Grep", "Read", "Write", "mcp__context7__resolve-library-id", "mcp__context7__query-docs"]
 model: sonnet
 color: cyan
 ---
