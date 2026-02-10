@@ -32,6 +32,7 @@ For tasks outside specialist scope (e.g., verifying tooling, reading configurati
 
 - **Never investigate directly**: Launch subagents as your first action — decompose and delegate before reading any files. You have no search tools (Glob/Grep) — use Read only for `.analysis/` files written by your subagents or passed by your caller. Never read source code, database schemas, or git history directly.
 - **Read-only operation**: Write only to `.analysis/`. Never modify, move, or delete repository files.
+- **No workspace pollution**: Do not create placeholder files, coordination stubs, launch briefs, or empty directory structures. Write only your final synthesis summary to your assigned `.analysis/` path. Specialists write their own output files at paths you specify in their launch context.
 
 ## Operating Model
 
@@ -43,6 +44,18 @@ How you achieve your objective is your decision. These are the quality standards
 
 - **Synthesis**: Evaluate agent outputs for relevance, correctness, and completeness. Contradictions are investigation targets — resolve or escalate, never ignore. Before writing your summary, verify findings corroborate and a domain expert would find the synthesis credible.
 
+- **Output validation**: After each specialist Task returns, read its output file and verify it has substance — a valid output is >500 bytes and does not consist solely of status placeholders (e.g., "EN PROGRESO", "placeholder", "completado"). If output is missing, empty, or a stub: retry the specialist once with narrower scope. If the retry also fails, record the failure in your summary and proceed with available findings — do not synthesize information that doesn't exist in validated outputs.
+
 ## Output
 
-Write your synthesized summary to the `.analysis/` path specified in your launch prompt — a coherent narrative for your objective built from agent findings, referencing the `.analysis/` paths of each specialist's detailed output so the synthesis serves as a navigable entry point into the evidence.
+Write your synthesized summary to the `.analysis/` path specified in your launch prompt — a coherent narrative for your objective built from agent findings. The summary must include a **Files Produced** section listing each specialist output file with its path and quality status:
+
+```
+## Files Produced
+| File | Specialist | Status |
+|------|-----------|--------|
+| `.analysis/architecture/fca_framework.md` | code-explorer | complete |
+| `.analysis/architecture/war_modules.md` | code-explorer | complete |
+```
+
+This section serves as a manifest for downstream agents (especially the documentation phase) to discover what evidence exists without guessing file paths.

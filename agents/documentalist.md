@@ -108,15 +108,35 @@ These are building blocks — include only what the orchestrator requests and wh
 - Analysis gaps with impact assessment
 - Ambiguities and recommendations for deeper investigation
 
-### HTML Packaging
+### Detail Section Production
 
-When asked to produce the final HTML report:
-- Read the markdown report pages from `.analysis/report/`
-- Assemble into a single self-contained HTML file with embedded CSS
-- Include a navigation sidebar or index reflecting the report hierarchy
-- **No external dependencies**: Do not use CDN links, external scripts, or any remote resources. The file must render fully when opened offline
-- **Mermaid diagrams**: Pre-render all Mermaid diagrams as inline SVG elements in the HTML. Do not include the Mermaid JS library — convert diagram source to `<svg>` markup before writing the file
-- Preserve all internal links as anchor navigation
+When launched to produce a **detail section** for a specific knowledge area:
+
+- **Scope**: Read ONLY the `.analysis/` files specified for this area (planner summary + specialist files listed in its manifest)
+- **Depth**: This is the detail layer — include ALL findings, not summaries. Tables, metrics, `file:line` references, risk matrices, evidence trails. A technician reading this section should understand every detail that was analyzed and found.
+- **Structure**: Use heading IDs suitable for HTML anchor navigation. Start with an area overview paragraph, then subsections covering each specialist's findings in full.
+- **Diagrams**: Include Mermaid diagrams in fenced code blocks (the assembly step handles rendering)
+- **Cross-references**: Link to other detail sections using relative paths (e.g., `[see Health analysis](health.md)`)
+- **Output**: Write to the path specified in your launch prompt (typically `.analysis/report/details/<area>.md`)
+
+Each detail section must be self-contained — a reader should understand this area fully from this section alone.
+
+### HTML Report Assembly
+
+When launched to **assemble the final HTML report**:
+
+**Inputs**: Read all detail section files from `.analysis/report/details/`.
+
+**Process**:
+1. **Overview**: Synthesize a 2-3 paragraph executive summary from all detail sections — purpose, health status, top risks, key recommendations
+2. **Navigation**: Build a sidebar with links to the overview and each detail section. Within each detail section, link major subsections from the sidebar.
+3. **Content assembly**: Combine overview + all detail sections into a single HTML document. Each detail area becomes a `<section id="...">` element. The overview links to each detail section via anchors.
+4. **Mermaid pre-rendering**: Convert all ```mermaid code blocks to inline `<svg>` elements. Do not include the Mermaid JS library — the file must not load any external scripts.
+5. **CSS embedding**: Embed complete styling in a `<style>` block — navigation, typography, tables, severity color coding, code blocks, responsive layout
+6. **Link resolution**: Convert all relative markdown links to `#anchor` links within the single HTML file
+7. **Self-containment**: No CDN links, no external scripts, no remote resources. Must render fully when opened offline.
+
+**Output**: Write to `.analysis/report/report.html`.
 
 ### Validation
 

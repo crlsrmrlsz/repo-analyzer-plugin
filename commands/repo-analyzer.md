@@ -39,6 +39,8 @@ Three channels connect agents at every level:
 
 3. **Return summary** (upward): Every agent returns only a concise summary to its caller — key findings, decisions made, issues needing escalation, and any knowledge the caller requested. The planner layer absorbs and synthesizes specialist output; this is the structural protection for orchestrator context.
 
+4. **Phase manifest**: Every planner summary doubles as a manifest — it must list each specialist output file it synthesized from, with a one-line quality status (complete / partial / failed). The Documentation planner uses these manifests to discover what evidence exists, rather than receiving file paths from the orchestrator. When composing the Documentation planner prompt, reference only the planner summary paths (one per phase), not individual specialist files — let the documentation planner read the summaries to discover the specialist files.
+
 
 ## Planner Interface
 
@@ -66,6 +68,10 @@ Encourage planners to launch as many specialists as the objective warrants — b
   Between gates, proceed autonomously. Escalate only for decisions affecting scope or quality.
 
 - **Progress visibility**: At the start, use TaskCreate to create one task per knowledge goal (Prerequisites, Scope & Complexity, Architecture, Domain & Business Logic, Health & Risk, Documentation). Update each task to `in_progress` as you begin it and `completed` when done. If the user narrows scope, delete inapplicable tasks.
+
+- **Phase sequencing**: Knowledge goals build on each other — each phase uses prior findings as context. Launch phases sequentially: complete Prerequisites, then Scope, then Architecture, then Domain, then Health, then Documentation. Do not launch the next phase until the current planner Task has returned and you have confirmed its summary file exists in `.analysis/`. The only exception: if two goals are genuinely independent for a given project (e.g., no database means no Domain→Health dependency on data profiling), they may run in parallel — but this must be a deliberate decision with justification, not the default.
+
+- **Workspace hygiene**: During prerequisites, create only top-level phase directories (`.analysis/scope/`, `.analysis/architecture/`, etc.). Do not create module-level subdirectories or anticipate specialist file structure — specialists create their own output files at paths specified by their planner. This prevents empty directories that no agent can later remove.
 
 - **Adapt continuously**: Narrow scope and retry on low-confidence results. Add goals or sub-planners for unexpected complexity. Escalate persistent issues to user.
 
@@ -113,6 +119,12 @@ Check `.claude/repo-analyzer.local.md` for pre-configured settings. For multi-re
 
 **Precondition**: All prior knowledge goals complete with evidence-based findings in `.analysis/`.
 
-**What to produce**: A navigable report from system overview to implementation detail, packaged as self-contained HTML.
+**What to produce**: A navigable HTML report with two layers: an **overview** (executive summary, key findings per area) and **detail sections** (one per knowledge area, containing the full depth of specialist findings as formatted, readable HTML — not summaries, not raw markdown).
 
-**Done when**: Reader can navigate from "what is this?" to any depth of detail, HTML is self-contained with embedded styling and navigation, all claims trace to `.analysis/` files.
+**Strategy**: Instruct the planner to produce the report in two passes:
+1. **Detail sections** (parallel): Launch one documentalist per knowledge area. Each reads only that area's planner summary + specialist files (discovered from the summary's manifest) and writes a thorough detail section to `.analysis/report/details/<area>.md`. Each detail section must contain the full evidence — metrics, tables, file references, diagrams — not just summaries.
+2. **Assembly** (after all details complete): Launch one documentalist that reads all detail sections from `.analysis/report/details/`, produces the overview with navigation, and assembles everything into a single self-contained HTML file. The overview links to each detail section via in-page anchors.
+
+**Important**: Do NOT pass specific file paths or report structure instructions to the documentation planner beyond the strategy above and the planner summary paths. The documentalist agent has its own report structure spec — trust it. Do not instruct "use Mermaid CDN" or prescribe HTML structure; the documentalist handles HTML packaging per its own guidelines.
+
+**Done when**: Detail sections exist at `.analysis/report/details/` for each knowledge area, final HTML at `.analysis/report/report.html` includes both overview and full detail sections as navigable content, HTML is self-contained (no external CDN or scripts), all claims trace to `.analysis/` evidence files.
