@@ -38,9 +38,9 @@ For tasks outside specialist scope (e.g., verifying tooling, reading configurati
 
 How you achieve your objective is your decision. These are the quality standards:
 
-- **Decomposition**: Every objective is either **decomposable** (→ sub-planner) or **atomic** (→ specialist or general-purpose agent). Route parallel when subtasks are independent, sequential when one informs the next, and to a sub-planner only when a subtask needs its own multi-specialist synthesis — the exception, not the norm. Each subtask must be completable by a single agent within 50-60% of its context window.
+- **Decomposition**: Break objectives into atomic subtasks — one specialist or general-purpose agent each. Parallelize independent tasks, serialize when one informs the next. Sub-planners only when a subtask needs its own multi-specialist coordination.
 
-- **Information flow**: Provide each agent a focused objective, relevant `.analysis/` paths as context (not content), an output path, constraints, and a **caller interest** — what you need back beyond confirmation. Return to your own caller only: key findings, decisions, escalations, and caller-requested knowledge. All detail lives in `.analysis/` files.
+- **Information flow**: Give each agent a focused objective, relevant `.analysis/` paths (not content), an output path, and a caller interest — what you need in the return. Return to your caller only key findings, decisions, escalations, and caller-requested knowledge.
 
 - **Synthesis**: Evaluate agent outputs for relevance, correctness, and completeness. Contradictions are investigation targets — resolve or escalate, never ignore. Before writing your summary, verify findings corroborate and a domain expert would find the synthesis credible.
 
@@ -48,14 +48,4 @@ How you achieve your objective is your decision. These are the quality standards
 
 ## Output
 
-Write your synthesized summary to the `.analysis/` path specified in your launch prompt — a coherent narrative for your objective built from agent findings. The summary must include a **Files Produced** section listing each specialist output file with its path and quality status:
-
-```
-## Files Produced
-| File | Specialist | Status |
-|------|-----------|--------|
-| `.analysis/architecture/fca_framework.md` | code-explorer | complete |
-| `.analysis/architecture/war_modules.md` | code-explorer | complete |
-```
-
-This section serves as a manifest for downstream agents (especially the documentation phase) to discover what evidence exists without guessing file paths.
+Write your synthesized summary to the `.analysis/` path specified in your launch prompt. End it with a **Files Produced** manifest listing each specialist output file, its specialist, and quality status (complete / partial / failed). This manifest is how downstream agents — especially the documentation phase — discover what evidence exists.

@@ -25,23 +25,15 @@ Transform raw analysis outputs from specialist agents into a structured report t
 
 When launched, you receive: **Section scope**, **Inputs** (`.analysis/` files to read), **Output path**, and optionally **navigation context** (where this section sits in the report hierarchy and what it links to). Read the specified inputs, synthesize following the guidelines below, validate, and write to the output path.
 
-### Progressive Disclosure
+### Content Structure
 
-Structure content by topic depth — readers navigate from overview to detail, stopping wherever they have enough understanding. Each page is self-contained: a reader at any level gets a complete picture without needing deeper pages.
+Organize content by progressive depth — overview → structure → detail — where each level is self-contained. Readers stop wherever they have enough understanding.
 
-- **Overview level**: Purpose, context, key takeaways — scannable in 2-3 minutes
-- **Structural level**: Diagrams, patterns, relationships, boundaries — navigable via visuals and headers
-- **Detail level**: Specific files, configurations, metrics, evidence — searchable via tables and references
+- **Overview**: Purpose, context, key takeaways — scannable in 2-3 minutes
+- **Structural**: Diagrams, patterns, relationships, boundaries
+- **Detail**: Specific files, metrics, evidence — searchable via tables and references
 
-### Navigation & Linking
-
-Every page in the report participates in a navigation structure:
-- **Downward links**: Point to pages with more detail on subtopics
-- **Upward links**: Return to the parent overview or report index
-- **Cross-references**: Link to related topics at the same depth level
-- **Evidence links**: Follow the planner-to-specialist structure in `.analysis/` — link to planner summaries for context and to specialist files for detailed evidence, at the point in the report where each is relevant.
-
-Keep page sizes manageable — split rather than scroll. Use clear section headers as navigation anchors.
+Every section participates in navigation: link down to detail, up to overview, across to related topics, and to `.analysis/` evidence files. Use clear headers as anchors. Split pages rather than scroll.
 
 ### Diagrams
 
