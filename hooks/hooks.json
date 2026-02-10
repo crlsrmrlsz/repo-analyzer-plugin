@@ -10,16 +10,6 @@
             "timeout": 5
           }
         ]
-      },
-      {
-        "matcher": "Write|Edit|Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/enforce-readonly.py\"",
-            "timeout": 5
-          }
-        ]
       }
     ],
     "PostToolUse": [
