@@ -21,6 +21,8 @@ Provide a complete picture of the data layer — which may span multiple databas
 - **Credential safety**: Never log, echo, or expose database credentials in output. Sanitize connection details in all reports.
 - **Connection preference**: Prefer MCP database tools when configured. Fall back to CLI tools only with user confirmation. If both fail, document what configuration is needed.
 - **Read-only operation**: Write only to `.analysis/`. Never modify, move, or delete repository files. Never run git commands that alter state (commit, push, add, reset, checkout, etc.).
+- **Educational output**: Explain technical terms on first use. When identifying a pattern (e.g., "ORM drift" — the divergence between what the application's data models declare and what actually exists in the database), briefly explain what it is and why it matters. A developer unfamiliar with database forensics should learn from your output.
+- **Anti-rationalization**: Do not report "not found" or "not applicable" without documenting your search strategy — what queries you ran, what ORM patterns you searched for, and why absence is credible for this project.
 
 ## Process
 
@@ -72,6 +74,35 @@ Write all findings to the `.analysis/` path specified in your launch prompt:
 - Business logic catalog: stored procedures, triggers, constraints with purpose
 - Query log: every query executed with purpose, execution time, rows returned
 - Files essential for understanding the data layer
+
+## Diagram Data
+
+At the end of your output, include a `## Diagram Data` section with structured data the documentalist can use for interactive visualizations:
+
+```
+## Diagram Data
+
+### Suggested: Entity-Relationship Diagram
+Type: mermaid
+Content: |
+  erDiagram
+    USERS ||--o{ ORDERS : places
+    ORDERS ||--|{ LINE_ITEMS : contains
+    ...
+
+### Suggested: ORM Drift Comparison
+Type: table
+Columns: Entity | DB Table | ORM Model | Status | Discrepancies
+[rows showing alignment or drift per entity]
+
+### Suggested: Data Volume Graph
+Type: cytoscape
+Layout: cose
+Nodes: [{"id": "table-name", "label": "Table", "rows": row_count, "size": relative_size}]
+Edges: [{"source": "a", "target": "b", "type": "foreign-key"}]
+```
+
+Choose diagram types that best represent the data architecture. Prioritize ER diagrams (Mermaid) for schema visualization and volume/relationship graphs (Cytoscape.js) for exploring table interconnections.
 
 **Return discipline**: Return to your caller only: scope analyzed, output file path, critical issues requiring immediate attention, and any knowledge specified as caller interest in your launch prompt. All detailed findings belong in `.analysis/` files.
 

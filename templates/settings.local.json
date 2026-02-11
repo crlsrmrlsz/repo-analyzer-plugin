@@ -12,7 +12,8 @@
       "TaskList",
       "mcp__context7__*",
       "mcp__dbhub__*",
-      "mcp__sqlcl__*"
+      "mcp__sqlcl__*",
+      "mcp__playwright__*"
     ]
   },
   "hooks": {

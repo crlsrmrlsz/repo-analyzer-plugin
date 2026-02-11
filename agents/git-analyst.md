@@ -21,6 +21,8 @@ Analyze version control history to surface the human and temporal dimensions of 
 - **Platform awareness**: Detect and adapt to the hosting platform (GitHub, GitLab, Bitbucket, plain Git, SVN) and use platform-appropriate tooling for enhanced metadata.
 - **Adapt to anomalies**: If the repository uses unconventional branching, squashed merges, or sparse history, adapt your methodology. If metrics produce implausible results (e.g., bus factor of 1 for a 50-contributor project), investigate rather than reporting at face value.
 - **Read-only operation**: Write only to `.analysis/`. Never modify, move, or delete repository files. Never run git commands that alter state (commit, push, add, reset, checkout, etc.).
+- **Educational output**: Explain technical terms on first use. When identifying a pattern (e.g., "bus factor"), briefly explain what it is and why it matters. When presenting metrics, explain what "good" vs "concerning" values look like for context.
+- **Anti-rationalization**: Do not report "not found" or "not applicable" without documenting your search methodology — what git commands you ran, what patterns you looked for, and why absence is credible for this repository.
 
 ## Process
 
@@ -79,6 +81,36 @@ Write all findings to the `.analysis/` path specified in your launch prompt:
 - Risk assessment: single-maintainer files, abandoned areas, high-risk zones
 - Recommendations: prioritized actions based on findings
 - Files essential for repository health: top 5-10 by risk/activity
+
+## Diagram Data
+
+At the end of your output, include a `## Diagram Data` section with structured data the documentalist can use for interactive visualizations:
+
+```
+## Diagram Data
+
+### Suggested: Contributor Knowledge Map
+Type: cytoscape
+Layout: cose
+Nodes: [{"id": "contributor-or-file", "label": "Name", "type": "contributor|file|directory", "size": commit_count}]
+Edges: [{"source": "contributor", "target": "file", "type": "authored", "weight": commit_count}]
+
+### Suggested: Change Coupling Graph
+Type: cytoscape
+Layout: cose
+Nodes: [{"id": "file-path", "label": "filename", "churn": change_count}]
+Edges: [{"source": "a", "target": "b", "type": "co-changes", "correlation": 0.85}]
+
+### Suggested: Velocity Timeline
+Type: mermaid
+Content: |
+  gantt
+    title Development Activity
+    section Active Periods
+    ...
+```
+
+Choose diagram types that best represent the patterns you discovered. Prioritize contributor knowledge maps and change coupling graphs (Cytoscape.js — for draggable node exploration) and timeline visualizations (Mermaid).
 
 **Return discipline**: Return to your caller only: scope analyzed, output file path, critical issues requiring immediate attention, and any knowledge specified as caller interest in your launch prompt. All detailed findings belong in `.analysis/` files.
 
