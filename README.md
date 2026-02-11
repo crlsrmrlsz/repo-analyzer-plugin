@@ -1,6 +1,6 @@
 # Repository Analyzer Plugin
 
-A Claude Code plugin that performs deep, multi-agent analysis of any software repository. Run the `/repo-analyzer` slash command, and a team of specialized agents examines your codebase's architecture, domain logic, code health, and optionally its database — then delivers a self-contained HTML report.
+A Claude Code plugin that performs deep, multi-agent analysis of any software repository. Run the `/repo-analyzer` slash command, and a team of specialized agents examines your codebase's architecture, domain logic, code health, and optionally its database — then delivers an interactive HTML report with tab navigation, zoomable diagrams, and three-layer progressive disclosure.
 
 ## Quick Start
 
@@ -55,14 +55,14 @@ The analysis proceeds through six knowledge goals:
 2. **Scope & Complexity** — Determines project type, tech stack, and scale. Pauses again so you can adjust the plan before deep analysis begins.
 3. **Architecture** — Maps system boundaries, entry points, module relationships, and design patterns.
 4. **Domain & Business Logic** — Identifies domain entities, business rules, API surfaces, and core workflows.
-5. **Health & Risk** — Audits code quality, security posture, and technical debt with confidence-scored findings.
-6. **Documentation** — Synthesizes everything into a navigable report packaged as self-contained HTML.
+5. **Health & Risk** — Conducts multiple focused audits (infrastructure, security, code quality patterns, complexity, technical debt forensics) with confidence-scored findings and consistency analysis across peer components.
+6. **Documentation** — Synthesizes everything into an interactive HTML report with tab navigation, collapsible disclosure layers, Mermaid diagrams (zoomable/pannable), and Cytoscape.js graphs (draggable nodes).
 
 The analyzer pauses at two gates — after prerequisites and after scope — for your input. Between those gates it runs autonomously, and progress is visible via the task list.
 
 ### Recommended model
 
-Use Opus for the best orchestration quality. The orchestrator and planners run on whichever model you launch Claude Code with, while specialist agents always use Sonnet.
+Use Opus for the best orchestration quality. The orchestrator runs on whichever model you launch Claude Code with, while specialist agents always use Sonnet.
 
 ## Per-Project Settings
 
@@ -292,14 +292,28 @@ Results are written to `.analysis/` in the project root:
 
 ```
 .analysis/
+├── plan.md                   # Orchestrator's analysis plan
 ├── <phase>/                  # One directory per knowledge goal (named at runtime)
-│   └── *.md                  # Specialist findings
-└── report/                   # Navigable report + self-contained HTML
-    ├── *.md                  # Linked report pages (overview → detail)
-    └── report.html           # Self-contained HTML report
+│   └── *.md                  # Specialist findings with diagram data
+├── report/
+│   ├── details/              # Per-tab detail sections with layer markers
+│   └── report.html           # Interactive HTML report
+└── debug/
+    └── agent-log.jsonl       # Agent lifecycle log (from hooks)
 ```
 
-The `report.html` file is fully self-contained — embedded CSS, navigation, and all content — so it can be shared, emailed, or opened in any browser without a server.
+### Interactive report features
+
+The `report.html` file uses tab-based navigation with three-layer progressive disclosure:
+
+- **Executive layer** (always visible) — 2-3 sentence summary per tab with health indicators
+- **Structural layer** (collapsible) — Mermaid diagrams with zoom/pan, Cytoscape.js graphs with draggable nodes
+- **Evidence layer** (collapsible) — Full `file:line` reference tables, raw metrics, detailed findings
+
+The report loads three CDN libraries (requires internet access to view):
+- [Mermaid v11](https://cdn.jsdelivr.net/npm/mermaid@11/) — architecture, ER, sequence, and flow diagrams
+- [svg-pan-zoom 3.6.1](https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/) — zoom/pan controls on Mermaid SVGs
+- [Cytoscape.js 3.30.4](https://unpkg.com/cytoscape@3.30.4/) — interactive dependency, coupling, and contributor graphs
 
 Add `.analysis/` to your `.gitignore` to keep analysis output out of version control.
 
@@ -313,27 +327,32 @@ Add `.analysis/` to your `.gitignore` to keep analysis output out of version con
 
 ## How It Works
 
-The plugin uses a hierarchical agent system: an orchestrator (Opus) decomposes the analysis into knowledge goals and delegates each to a planner (Opus), which further breaks work into focused tasks for specialist agents (Sonnet). Specialists write detailed findings to `.analysis/` files, while only concise summaries flow upward — keeping each agent's context lean and focused. This architecture allows the system to analyze large, complex codebases that would overwhelm a single agent. See [`CLAUDE.md`](CLAUDE.md) for the full design documentation.
+The plugin uses a 2-tier agent hierarchy:
+
+1. **Orchestrator** (Opus) — Pure coordination. Decomposes analysis into knowledge goals and delegates each to specialist agents with focused objectives, explicit scope, output paths, and success criteria. Never reads source code directly.
+2. **Specialists** (Sonnet) — Five domain experts (code-explorer, code-auditor, database-analyst, git-analyst, documentalist) that write detailed findings to `.analysis/` files.
+
+**Quality-gate verification**: After each specialist completes, the orchestrator launches a general-purpose agent as a quality gate. The quality gate reads the specialist's output (in its own context window) and returns a structured assessment (PASS/FAIL + evidence density). The orchestrator never reads specialist output files directly — this prevents context overflow and enables analysis of large, complex codebases.
+
+**Information flow**: Focused tasks flow downward (orchestrator → specialist). Findings persist in `.analysis/` files. Only concise summaries and quality-gate assessments flow upward — keeping the orchestrator's context lean across 15-20+ agent launches.
 
 ## Plugin File Structure
 
 ```
 plugin-repo-analyzer/
 ├── .claude-plugin/
-│   └── plugin.json                 # Plugin manifest
-├── .gitattributes                     # Line ending enforcement
+│   └── plugin.json                 # Plugin manifest (v1.0.0)
+├── .gitattributes                  # Line ending enforcement
 ├── .gitignore
-├── CLAUDE.md                       # Prompt design & orchestration rules
 ├── README.md
 ├── commands/
-│   └── repo-analyzer.md            # Orchestrator command
+│   └── repo-analyzer.md            # Orchestrator command (2-tier, Playwright validation)
 ├── agents/
-│   ├── planner.md                  # Strategic planner (Opus) — decomposes objectives
 │   ├── code-explorer.md            # Structure + behavior analysis
+│   ├── code-auditor.md             # Extreme-depth quality + security audit
 │   ├── database-analyst.md         # Data layer forensics
-│   ├── code-auditor.md             # Health + security audit
 │   ├── git-analyst.md              # VCS intelligence
-│   └── documentalist.md            # Report synthesis
+│   └── documentalist.md            # Interactive HTML report assembly
 ├── hooks/
 │   ├── hooks.json                  # Hook configuration (agent lifecycle logging)
 │   └── log-agents.py               # Agent lifecycle JSONL logger
