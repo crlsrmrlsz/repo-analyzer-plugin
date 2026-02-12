@@ -6,7 +6,7 @@ The report must enable the team to:
 - Understand what the application does, who uses it, main user journeys, how data is managed and transformed
 - Understand software architecture at high level and in detail
 - Know the technology stack
-- Assess code quality comprehensively (patterns, naming, consistency, assumptions, architecture decisions) to understand inefficiencies, maintenance cost, and technical debt
+- Assess code quality comprehensively 
 - Know health status and risks with prioritized, actionable findings
 - Understand development history and contributor dynamics
 - Assess data quality, sizing, schema design, and ORM alignment
@@ -31,7 +31,7 @@ The report must enable the team to:
 - Repository and database access is strictly READ ONLY — never INSERT, UPDATE, DELETE, DROP, ALTER, or any DDL/DML that modifies data or schema
 - Database query safety: avoid overloading the database — use LIMIT on exploratory queries, prefer indexed columns in WHERE clauses, avoid full table scans on large tables, use COUNT approximations when exact counts on massive tables are unnecessary
 - High-impact claims must be corroborated from multiple sources
-- Educational style throughout: explain technical terms on first use
+- Educational style throughout: explain technical terms on first use. Assume the reader has limited time — every idea must be clearly explained with emphasis on understanding over exhaustiveness
 - Evidence-based: every finding references specific `file:line` locations
 - Report written entirely in Spanish
 - Confidence threshold: only report findings with >= 80% confidence
@@ -197,7 +197,7 @@ Interactive HTML report at `.analysis/report/report.html`. All intermediate anal
 
 | Tab | Content |
 |-----|---------|
-| **Overview** | Executive summary, health indicator, key metrics, top risks — synthesized from all tabs |
+| **Overview** | Executive brief summary: system purpose, main architecture, code quality and risks|
 | **Domain** | Domain model, business rules, API surface, core workflows |
 | **Architecture** | System boundaries, module organization, dependency graphs, design patterns |
 | **Data** | Schema documentation, ER diagrams, ORM drift, volume analysis |
@@ -206,13 +206,6 @@ Interactive HTML report at `.analysis/report/report.html`. All intermediate anal
 
 Omit tab if its knowledge area was not analyzed (e.g., Data tab when no database access).
 
-## Progressive Disclosure
-
-Every tab uses three layers:
-
-1. **Executive** (always visible): 2-3 sentence summary, health indicator (Green/Yellow/Red), key metric. Scanning executive layers across all tabs = complete overview in 2 minutes.
-2. **Structural** (collapsible "Patterns & Diagrams"): Diagrams, pattern tables, relationship maps. Developer understands architecture without reading source.
-3. **Evidence** (collapsible "Detailed Findings"): Full `file:line` reference tables, raw metrics, per-component findings, confidence scores, severity ratings. Technician can act on specific issues.
 
 ## Interactive Visualizations
 
@@ -227,7 +220,14 @@ Every tab uses three layers:
 
 ## Style
 
-- Educational: every technical term explained on first use
+Content principles:
+- Narrative-first: each section leads with clear, well-explained ideas — not raw data or metric tables
+- Visual over tabular: use diagrams to communicate structure and relationships; reserve tables for evidence supporting specific findings
+- Concise: prioritize insight density — one well-explained finding is worth more than ten unexplained metrics
+- Statistical detail (inventories, counts, raw metrics) collapsed at end of each section, not in the main narrative flow
+- Diagrams: readable and uncluttered — split complex diagrams rather than overcrowding; every diagram must have a clear purpose
+
+Presentation:
 - Severity color coding: Critical=red, High=orange, Medium=yellow, Low=blue
 - Striped table rows, monospace for code paths and `file:line`
 - Responsive layout (stack tabs on mobile)
@@ -236,8 +236,10 @@ Every tab uses three layers:
 
 ## Report Validation
 
-Browser-based validation required:
+Browser-based validation required before delivery:
 - Tab navigation renders and switches content correctly
-- All diagrams render without errors
+- Mermaid diagrams: verify EVERY diagram renders correctly — Mermaid rendering failures are common (unclosed quotes, invalid arrow syntax, unsupported characters). Each diagram must be visually confirmed via Playwright, not just checked for absence of errors
+- Cytoscape.js graphs render with visible nodes and edges
+- Diagrams are readable: no overcrowded nodes, labels legible, layout not collapsed
 - No console errors
 - All sections accessible with content visible
