@@ -28,10 +28,12 @@ The report must enable the team to:
 # Constraints
 
 - All analysis outputs written to `.analysis/` — never modify repository files, git state, or anything outside `.analysis/`
-- Repository and database access is strictly READ ONLY
+- Repository and database access is strictly READ ONLY — never INSERT, UPDATE, DELETE, DROP, ALTER, or any DDL/DML that modifies data or schema
+- Database query safety: avoid overloading the database — use LIMIT on exploratory queries, prefer indexed columns in WHERE clauses, avoid full table scans on large tables, use COUNT approximations when exact counts on massive tables are unnecessary
 - High-impact claims must be corroborated from multiple sources
 - Educational style throughout: explain technical terms on first use
 - Evidence-based: every finding references specific `file:line` locations
+- Report written entirely in Spanish
 - Confidence threshold: only report findings with >= 80% confidence
 
 # Analysis Phases
@@ -52,13 +54,15 @@ Complete in sequence — early phases inform later ones.
 
 ## 3. Architecture
 
-**Discover**: System boundaries, module organization, entry points, dependency relationships, architectural patterns, design decisions.
+**Discover**: System boundaries, module organization, entry points, dependency relationships, architectural patterns, design decisions, architecture type classification.
 
 **Expected detail**:
+- Architecture type identification and classification: monolith, layered, microservices, event-driven, hexagonal, CQRS, or hybrid — with evidence for the classification (e.g., "layered monolith: presentation → service → repository → database, evidenced by package structure and dependency direction")
 - Module boundaries with inter-module dependencies mapped
 - Execution flows traced through call chains with data transformations and state changes
 - Framework conventions distinguished from custom implementations
 - Confirmed findings vs inferences clearly labeled
+- Data source inventory: identify all data sources and sinks the application uses — databases, file storage, external APIs, message queues, caches, third-party services — and classify each as accessible (available for direct inspection) or unavailable (inferred from code only)
 - Diagram data (nodes/edges) produced for visualizations
 
 **Validation**: Findings internally consistent — if 10 entry points identified but only 2 have dependencies mapped, gap must be explained. No implausible conclusions for the tech stack.
@@ -72,7 +76,13 @@ Complete in sequence — early phases inform later ones.
 **Expected detail**:
 - Domain terms, core entities, primary workflows characterized with code references
 - Data access layer mapped as distinct concern: repository/DAO patterns, query construction, caching, validation boundaries
-- When database available: entity volumes and activity patterns corroborate or contradict the code-level domain model
+- Database-backed business profiling (when database access available):
+  - Date range of operational data (earliest to latest activity)
+  - Main entity counts (users, transactions, products, etc. — whatever the domain entities are)
+  - Growth and activity indicators derived from temporal data
+  - Results corroborate or contradict the code-level domain model
+- File-based or alternative data stores identified in code: what they contain, format, access patterns
+- Unavailable data sources: for each source identified in Architecture that cannot be directly accessed, document what the code reveals about its purpose, data format, and integration patterns
 - Diagram data for domain model and key workflows
 
 **Validation**: Cross-reference code-discovered entities against database schema when available.
@@ -81,7 +91,7 @@ Complete in sequence — early phases inform later ones.
 
 ## 5. Health & Risk
 
-The deepest phase. Requires multiple focused audits across five dimensions — not one broad sweep.
+The deepest phase. Requires multiple focused audits across six dimensions — not one broad sweep.
 
 ### Audit Dimensions
 
@@ -90,26 +100,33 @@ The deepest phase. Requires multiple focused audits across five dimensions — n
 - Abstraction quality: single responsibility, interface cleanliness, god objects (>10 public methods or >300 lines), layering violations
 - Pattern adherence: framework idiom compliance, ecosystem-foreign patterns
 
-**5.2 Complexity & Maintainability**
+**5.2 Architecture Critique**
+- Evaluate whether the identified architecture type suits the application's scale, domain complexity, and operational requirements
+- Layering discipline: are the intended boundaries respected or routinely violated? (e.g., controllers accessing database directly, bypassing service layer)
+- Architectural coherence: has the architecture evolved consistently or accumulated contradictory patterns? (e.g., partial migration from monolith to microservices, mixed sync/async communication without clear rationale)
+- Separation of concerns: are cross-cutting concerns (auth, logging, error handling, configuration) handled consistently or scattered?
+- Scalability and extensibility posture: what would adding a new major feature require — isolated change or widespread modifications?
+
+**5.3 Complexity & Maintainability**
 - Top complexity hotspots by cyclomatic/cognitive complexity
 - Change amplification: files across layers that must change for a typical new entity
 - Local comprehensibility: can a module be understood without reading transitive dependencies?
 - Coupling: concrete vs abstract dependencies, fan-in/fan-out risk indicators
 
-**5.3 Technical Debt Forensics**
+**5.4 Technical Debt Forensics**
 - TODO/FIXME/HACK inventory with git blame dates — debt older than 1 year is likely permanent
 - Incomplete migrations: coexisting patterns for same concern (two ORMs, callbacks + promises)
 - Suppressed linter/compiler warnings inventory with justification assessment
 - Assumption archaeology: hardcoded values, concurrency assumptions, timezone/locale handling, encoding assumptions, scale limits, platform dependencies — each encoding undocumented business assumptions
 - Each finding classified by blast radius: contained, spreading, or load-bearing
 
-**5.4 Infrastructure**
+**5.5 Infrastructure**
 - Test coverage by criticality-weighted business-logic paths, not just line percentage
 - Test depth: behavior assertions + edge cases + failure paths, or just happy-path?
 - CI/CD maturity: reproducible builds, rollback capability, environment parity
 - Observability gaps: where would production failures go undetected?
 
-**5.5 Security**
+**5.6 Security**
 - Beyond OWASP top 10: logic flaws in auth/authorization patterns
 - Exposed secrets including rotated ones still in git history
 - Dependency risk by age and maintainer activity, not just known CVEs
@@ -155,10 +172,15 @@ The deepest phase. Requires multiple focused audits across five dimensions — n
 
 **Expected detail**:
 - Complete schema inventory: tables, views, columns, constraints, indexes, foreign keys, stored procedures, triggers — organized per schema
-- Volume analysis: largest tables, date ranges for temporal data, growth indicators
-- Business data profiling via aggregate queries only (COUNT, MIN/MAX, DISTINCT): entity counts, user volumes, activity levels, data completeness
+- Volume analysis: largest tables, growth indicators
+- Business data profiling via aggregate queries only (COUNT, MIN/MAX, DISTINCT):
+  - Date range per main entity (oldest record to newest)
+  - Entity counts presented as a business profile summary (e.g., "X users, Y orders spanning Z months")
+  - Activity levels and data completeness
+  - Identify data that appears stale, orphaned, or inconsistent
 - ORM drift detection: three-column comparison (DB-only | Matched | ORM-only) per database, drift quantified as percentage
 - Entity relationship map with foreign key and inferred relationships
+- Query safety: all queries strictly SELECT-only, use LIMIT for exploratory queries, avoid full table scans — never execute INSERT, UPDATE, DELETE, DROP, ALTER, TRUNCATE, or any data-modifying statement
 - Credential safety: never log or expose database credentials in output
 
 **Validation**: Findings consistent with application type (e.g., 50 tables but 3 ORM models — discrepancy explained). Multiple databases have cross-source relationships documented.
@@ -176,8 +198,8 @@ Interactive HTML report at `.analysis/report/report.html`. All intermediate anal
 | Tab | Content |
 |-----|---------|
 | **Overview** | Executive summary, health indicator, key metrics, top risks — synthesized from all tabs |
-| **Architecture** | System boundaries, module organization, dependency graphs, design patterns |
 | **Domain** | Domain model, business rules, API surface, core workflows |
+| **Architecture** | System boundaries, module organization, dependency graphs, design patterns |
 | **Data** | Schema documentation, ER diagrams, ORM drift, volume analysis |
 | **Health** | Quality assessment, security posture, complexity, technical debt, consistency |
 | **History** | Contributor dynamics, hotspots, change coupling, velocity trends |
@@ -209,6 +231,7 @@ Every tab uses three layers:
 - Severity color coding: Critical=red, High=orange, Medium=yellow, Low=blue
 - Striped table rows, monospace for code paths and `file:line`
 - Responsive layout (stack tabs on mobile)
+- Language: Spanish — all report content, headings, labels, and explanations in Spanish
 - Print-friendly (expand all collapsible sections, hide tab bar)
 
 ## Report Validation
